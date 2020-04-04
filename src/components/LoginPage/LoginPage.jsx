@@ -1,25 +1,14 @@
-import {
-  Button,
-  Divider,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Select,
-  TextField,
-  Typography
-} from '@material-ui/core';
+import { Button, Divider, Grid, Paper, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from 'react';
-import { goBack, push } from 'connected-react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import { goBack, push } from 'connected-react-router';
 
-import { MAIN } from '../../routes';
-import { addUserAction } from '../../redux/ducks/auth/actions';
+import { loginAction } from '../../redux/ducks/auth/actions';
 import { getUsers } from '../../redux/ducks/auth/selectors';
-import { nameErrorMsg, nicknameTakenErrorMsg, passwordErrorMsg, roles } from '../../helpers/consts';
-import { findUser, isValidInput, isValidName, isValidPassword } from '../../helpers/tools';
+import { MAIN } from '../../routes';
+import { findUser, isValidInput } from '../../helpers/tools';
+import { userNotFoundErrorMsg, wrongPasswordErrorMsg } from '../../helpers/consts';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     boxShadow: '0px 5px 24px 0px rgba(50, 50, 50, 0.5)',
-    height: '65%',
+    height: '50%',
     width: '100%',
     [theme.breakpoints.up('md')]: {
       width: '50%'
@@ -59,45 +48,46 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const RegisterPage = () => {
+const LoginPage = () => {
   const dispatch = useDispatch();
   const users = useSelector(getUsers);
   const classes = useStyles();
 
   const [fields, setFields] = useState({
-    role: 'Expert',
-    firstName: '',
-    lastName: '',
     nickname: '',
     password: ''
   });
 
   const [fieldsErrors, setFieldsErrors] = useState({});
 
+  const hideError = () => {
+    setFieldsErrors({});
+    return true;
+  };
+
   const handleChange = ({ target: { name, value } }) =>
     isValidInput(value) &&
+    hideError() &&
     setFields(prevState => ({
       ...prevState,
       [name]: value
     }));
 
-  const validateFields = () => {
-    const { firstName, lastName, nickname, password } = fields;
-    const user = findUser({ nickname }, users);
+  const handleSubmit = () => {
+    const user = findUser(fields, users);
 
-    const fieldsErrorsLocal = {
-      firstName: !isValidName(firstName) && nameErrorMsg,
-      lastName: !isValidName(lastName) && nameErrorMsg,
-      nickname: user && nicknameTakenErrorMsg,
-      password: !isValidPassword(password) && passwordErrorMsg
-    };
-    setFieldsErrors(fieldsErrorsLocal);
-    return Object.values(fieldsErrorsLocal).reduce((acc, item) => acc && !item, true);
+    if (!user) {
+      return setFieldsErrors(prevState => ({ ...prevState, nickname: userNotFoundErrorMsg }));
+    }
+    if (user.password !== fields.password) {
+      return setFieldsErrors(prevState => ({ ...prevState, password: wrongPasswordErrorMsg }));
+    }
+
+    dispatch(loginAction(user));
+    dispatch(push(MAIN));
   };
 
   const handleCancel = () => dispatch(goBack());
-
-  const handleSubmit = () => validateFields() && dispatch(addUserAction(fields)) && dispatch(push(MAIN));
 
   return (
     <div className={classes.root}>
@@ -111,35 +101,11 @@ const RegisterPage = () => {
         >
           <Grid>
             <Typography align="center" variant="h2" color="primary" className={classes.title}>
-              Register
+              Login
             </Typography>
             <Divider light variant="middle" />
           </Grid>
           <Grid container item direction="column" className={classes.inputsContainer}>
-            <Grid item container>
-              <Grid item xs={12} lg={6}>
-                <TextField
-                  name="firstName"
-                  label="First Name"
-                  error={!!fieldsErrors.firstName}
-                  helperText={fieldsErrors.firstName}
-                  value={fields.firstName}
-                  onChange={handleChange}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} lg={6}>
-                <TextField
-                  name="lastName"
-                  label="Last Name"
-                  error={!!fieldsErrors.lastName}
-                  helperText={fieldsErrors.lastName}
-                  value={fields.lastName}
-                  onChange={handleChange}
-                  fullWidth
-                />
-              </Grid>
-            </Grid>
             <Grid item>
               <TextField
                 fullWidth
@@ -162,18 +128,6 @@ const RegisterPage = () => {
                 value={fields.password}
                 onChange={handleChange}
               />
-            </Grid>
-            <Grid item>
-              <FormControl className={classes.formControl}>
-                <InputLabel id="label">Role</InputLabel>
-                <Select name="role" labelId="label" value={fields.role} onChange={handleChange}>
-                  {roles.map(role => (
-                    <MenuItem value={role.label} key={role.id}>
-                      {role.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
             </Grid>
           </Grid>
           <Grid container justify="center" spacing={1}>
@@ -201,4 +155,9 @@ const RegisterPage = () => {
   );
 };
 
-export { RegisterPage };
+LoginPage.defaultProps = {
+  manager: false,
+  expert: false
+};
+
+export { LoginPage };

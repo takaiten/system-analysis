@@ -15,6 +15,12 @@ const authReducer = (state = initialState, { type, payload }) => {
         user: payload,
         isLoggedIn: true
       };
+    case types.LOGIN:
+      return {
+        ...state,
+        user: payload,
+        isLoggedIn: true
+      };
     case types.LOGOUT:
       return {
         ...state,

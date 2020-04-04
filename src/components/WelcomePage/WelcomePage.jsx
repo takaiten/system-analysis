@@ -2,7 +2,7 @@ import { Button, Grid, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { LOGIN_ANALYST, LOGIN_EXPERT, REGISTER } from '../../routes';
+import { LOGIN, REGISTER } from '../../routes';
 
 const useStyles = makeStyles(() => ({
   grid: {
@@ -30,24 +30,9 @@ const WelcomePage = () => {
               size="large"
               className={classes.button}
               component={Link}
-              to={LOGIN_ANALYST}
+              to={LOGIN}
             >
-              Login as Analyst
-            </Button>
-          </Grid>
-        </Grid>
-        <Grid container item justify="center">
-          <Grid item xs={6} md={4} lg={2}>
-            <Button
-              fullWidth
-              variant="contained"
-              color="secondary"
-              size="large"
-              className={classes.button}
-              component={Link}
-              to={LOGIN_EXPERT}
-            >
-              Login as Expert
+              Login
             </Button>
           </Grid>
         </Grid>

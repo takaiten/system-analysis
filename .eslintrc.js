@@ -27,6 +27,7 @@ module.exports ={
     }],
     "no-unused-expressions": "off",
     "react/sort-comp": "off",
+    "react/jsx-one-expression-per-line": "off",
     "no-alert": 0,
     "prettier/prettier": "error",
     "default-case": 0,
