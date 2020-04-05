@@ -15,8 +15,10 @@
   "dependencies": {
     "@material-ui/core": "4.9.7",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.48",
     "connected-react-router": "6.8.0",
     "history": "4.10.1",
+    "immutable": "^4.0.0-rc.12",
     "react": "16.12.0",
     "react-dom": "16.12.0",
     "react-redux": "7.1.3",

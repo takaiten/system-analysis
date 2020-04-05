@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { goBack, push } from 'connected-react-router';
 
 import { loginAction } from '../../redux/ducks/auth/actions';
-import { getUsers } from '../../redux/ducks/auth/selectors';
+import { getUsersByIds, getUsersIds } from '../../redux/ducks/auth/selectors';
 import { MAIN } from '../../routes';
-import { findUser, isValidInput } from '../../helpers/tools';
+import { findUserByNickname, isValidInput } from '../../helpers/tools';
 import { userNotFoundErrorMsg, wrongPasswordErrorMsg } from '../../helpers/consts';
 
 const useStyles = makeStyles(theme => ({
@@ -50,7 +50,8 @@ const useStyles = makeStyles(theme => ({
 
 const LoginPage = () => {
   const dispatch = useDispatch();
-  const users = useSelector(getUsers);
+  const usersByIds = useSelector(getUsersByIds);
+  const usersIds = useSelector(getUsersIds);
   const classes = useStyles();
 
   const [fields, setFields] = useState({
@@ -74,7 +75,7 @@ const LoginPage = () => {
     }));
 
   const handleSubmit = () => {
-    const user = findUser(fields, users);
+    const user = findUserByNickname(fields, usersByIds, usersIds);
 
     if (!user) {
       return setFieldsErrors(prevState => ({ ...prevState, nickname: userNotFoundErrorMsg }));

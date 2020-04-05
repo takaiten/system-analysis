@@ -1,7 +1,8 @@
 import * as types from './types';
 
 const initialState = {
-  users: [],
+  usersById: {},
+  usersIds: [],
   user: null,
   isLoggedIn: false
 };
@@ -11,7 +12,11 @@ const authReducer = (state = initialState, { type, payload }) => {
     case types.ADD_USER:
       return {
         ...state,
-        users: [...state.users, payload],
+        usersById: {
+          ...state.users,
+          [payload.id]: payload
+        },
+        usersIds: [state.usersIds, payload.id],
         user: payload,
         isLoggedIn: true
       };

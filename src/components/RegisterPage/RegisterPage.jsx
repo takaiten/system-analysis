@@ -17,9 +17,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { MAIN } from '../../routes';
 import { addUserAction } from '../../redux/ducks/auth/actions';
-import { getUsers } from '../../redux/ducks/auth/selectors';
+import { getUsersByIds, getUsersIds } from '../../redux/ducks/auth/selectors';
 import { nameErrorMsg, nicknameTakenErrorMsg, passwordErrorMsg, roles } from '../../helpers/consts';
-import { findUser, isValidInput, isValidName, isValidPassword } from '../../helpers/tools';
+import { findUserByNickname, isValidInput, isValidName, isValidPassword } from '../../helpers/tools';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -61,7 +61,8 @@ const useStyles = makeStyles(theme => ({
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
-  const users = useSelector(getUsers);
+  const usersByIds = useSelector(getUsersByIds);
+  const usersIds = useSelector(getUsersIds);
   const classes = useStyles();
 
   const [fields, setFields] = useState({
@@ -83,7 +84,7 @@ const RegisterPage = () => {
 
   const validateFields = () => {
     const { firstName, lastName, nickname, password } = fields;
-    const user = findUser({ nickname }, users);
+    const user = findUserByNickname({ nickname }, usersByIds, usersIds);
 
     const fieldsErrorsLocal = {
       firstName: !isValidName(firstName) && nameErrorMsg,
