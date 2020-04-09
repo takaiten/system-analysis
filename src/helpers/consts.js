@@ -17,3 +17,10 @@ export const roles = [
     label: analyst
   }
 ];
+
+export const METHODS = [
+  {
+    id: 1,
+    label: 'Pair comparison'
+  }
+];

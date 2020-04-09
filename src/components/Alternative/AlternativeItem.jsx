@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import {
   IconButton,
@@ -6,6 +6,7 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
+  Paper,
   TextField,
   Typography
 } from '@material-ui/core';
@@ -17,57 +18,67 @@ import {
   Edit as EditIcon
 } from '@material-ui/icons';
 
+import { green, red } from '@material-ui/core/colors';
+
 const AlternativeItem = ({ alternativeText, onAlternativeChange, onAlternativeDelete }) => {
   const [alternativeTitle, setAlternativeTitle] = useState(alternativeText);
   const [editState, setEditState] = useState(false);
 
-  const handleEditStart = () => {
+  const handleEditStart = useCallback(() => {
     setAlternativeTitle(alternativeText);
     setEditState(true);
-  };
+  }, [setAlternativeTitle, alternativeText]);
 
-  const handleEditCancel = () => setEditState(false);
+  const handleEditCancel = useCallback(() => setEditState(false), []);
 
-  const handleEditChange = ({ target }) => setAlternativeTitle(target.value);
+  const handleEditChange = useCallback(({ target }) => setAlternativeTitle(target.value), []);
 
-  const handleEditSubmit = () => {
+  const handleEditSubmit = useCallback(() => {
+    if (alternativeTitle.length === 0) {
+      return;
+    }
     onAlternativeChange(alternativeTitle);
     handleEditCancel();
-  };
+  }, [onAlternativeChange, alternativeTitle, handleEditCancel]);
+
+  const handleKeyPress = useCallback(event => event.charCode === 13 && handleEditSubmit(), [
+    handleEditSubmit
+  ]);
 
   return (
-    <ListItem dense>
-      <ListItemIcon>
-        <IconButton edge="start">
-          {editState ? <CloseIcon onClick={handleEditCancel} /> : <EditIcon onClick={handleEditStart} />}
-          <EditIcon />
-        </IconButton>
-      </ListItemIcon>
-      <ListItemText>
-        {editState ? (
-          <Typography>{alternativeText}</Typography>
-        ) : (
-          <TextField
-            autoFocus
-            fullWidth
-            margin="dense"
-            label="Alternative"
-            value={alternativeTitle}
-            onChange={handleEditChange}
-            onBlur={handleEditCancel}
-          />
-        )}
-      </ListItemText>
-      <ListItemSecondaryAction>
-        <IconButton edge="end">
+    <Paper>
+      <ListItem dense>
+        <ListItemIcon>
+          <IconButton edge="start" onClick={editState ? handleEditCancel : handleEditStart}>
+            {editState ? <CloseIcon style={{ color: red[500] }} /> : <EditIcon />}
+          </IconButton>
+        </ListItemIcon>
+        <ListItemText>
           {editState ? (
-            <CheckIcon onClick={handleEditSubmit} />
+            <TextField
+              autoFocus
+              fullWidth
+              margin="dense"
+              label="Alternative"
+              value={alternativeTitle}
+              onChange={handleEditChange}
+              onKeyPress={handleKeyPress}
+            />
           ) : (
-            <DeleteIcon onClick={onAlternativeDelete} />
+            <Typography>{alternativeText}</Typography>
           )}
-        </IconButton>
-      </ListItemSecondaryAction>
-    </ListItem>
+        </ListItemText>
+        <ListItemSecondaryAction>
+          <IconButton edge="end" onClick={editState ? handleEditSubmit : onAlternativeDelete}>
+            {editState ? (
+              <CheckIcon style={{ color: green[500] }} />
+            ) : (
+              <DeleteIcon style={{ color: red[700] }} />
+            )}
+          </IconButton>
+        </ListItemSecondaryAction>
+      </ListItem>
+    </Paper>
   );
 };
 

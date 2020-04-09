@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Add } from '@material-ui/icons';
 import { Fab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch } from 'react-redux';
-import { push } from 'connected-react-router';
 
 import { Navbar } from '../Navbar';
-import { CREATE_TASK } from '../../routes';
+import { TaskCreationModal } from '../TaskCreationModal';
 
 const useStyles = makeStyles(theme => ({
   fab: {
@@ -22,26 +20,32 @@ const useStyles = makeStyles(theme => ({
 const MainPageAnalyst = () => {
   const classes = useStyles();
 
-  const dispatch = useDispatch();
+  const [modalState, setModalState] = useState(false);
 
-  const handleTaskCreation = () => dispatch(push(CREATE_TASK));
+  const handleOpenModal = () => setModalState(true);
+  const handleCloseModal = () => setModalState(false);
+  const handleTaskCreate = task => console.log(task);
 
   return (
     <>
       <Navbar />
-      <div>
-        <Fab
-          variant="extended"
-          size="large"
-          color="primary"
-          aria-label="add"
-          className={classes.fab}
-          onClick={handleTaskCreation}
-        >
-          <Add className={classes.extendedIcon} />
-          Create task
-        </Fab>
-      </div>
+      <TaskCreationModal
+        modalTitle="Task creation"
+        open={modalState}
+        onClose={handleCloseModal}
+        onCreate={handleTaskCreate}
+      />
+      <Fab
+        variant="extended"
+        size="large"
+        color="primary"
+        aria-label="add"
+        className={classes.fab}
+        onClick={handleOpenModal}
+      >
+        <Add className={classes.extendedIcon} />
+        Create task
+      </Fab>
       <h1>Main Page analyst</h1>
     </>
   );

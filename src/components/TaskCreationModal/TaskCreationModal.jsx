@@ -1,29 +1,53 @@
 import React, { useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@material-ui/core';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField
+} from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { List } from 'immutable';
+import { useSelector } from 'react-redux';
 
-import { expert } from '../../helpers/consts';
+import { METHODS, expert } from '../../helpers/consts';
 import { getFullName } from '../../helpers/tools';
+import { getUsersByIds, getUsersIds } from '../../redux/ducks/auth/selectors';
 
-import { AlternativesList } from '../Alternative';
+import { Alternative } from '../Alternative';
 import { ExpertsList } from '../ExpertsList';
 
-const TaskCreationModal = ({ open, onClose, onForceClose, onCreate, task }) => {
-  const users = {}; // TODO useSelector
-  const experts = Object.values(users).filter(user => user.role === expert);
+const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, task }) => {
+  const usersIds = useSelector(getUsersIds);
+  const usersByIds = useSelector(getUsersByIds);
+
+  const experts = usersIds
+    .filter(userId => usersByIds[userId].role === expert)
+    .map(userId => usersByIds[userId]);
 
   // Title
   const [taskTittle, setTaskTittle] = useState(task?.tittle || 'Task');
 
   const handleTaskTittleChange = ({ target }) => setTaskTittle(target.value);
 
+  // Method
+  const [method, setMethod] = useState(task ? task.method : METHODS[0].label);
+
+  const handleMethodChange = ({ target }) => setMethod(target.value);
+
   // Alternatives
   const [alternatives, setAlternatives] = useState(task ? List(task.alternatives) : List());
 
+  const handleAlternativeCreate = () =>
+    setAlternatives(prevState => prevState.push(`Alternative #${prevState.size + 1}`));
   const handleAlternativeDelete = index => () => setAlternatives(prevState => prevState.delete(index));
-  const handleAlternativeChange = index => ({ target }) =>
-    setAlternatives(prevState => prevState.set(index, target.value));
+  const handleAlternativeChange = index => value => setAlternatives(prevState => prevState.set(index, value));
 
   // Experts
   const [selectedExperts, setSelectedExperts] = useState(task ? List(task.experts) : List());
@@ -32,9 +56,9 @@ const TaskCreationModal = ({ open, onClose, onForceClose, onCreate, task }) => {
   const handleExpertAddition = userId => setSelectedExperts(prevState => prevState.push(userId));
 
   // Search
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState({});
 
-  const handleSearchChange = (event, value) => setSearch(value);
+  const handleSearchChange = (event, user) => setSearch(user);
   const handleSearchSelect = (event, user, reason) => {
     if (reason === 'select-option') {
       setSearch('');
@@ -42,24 +66,45 @@ const TaskCreationModal = ({ open, onClose, onForceClose, onCreate, task }) => {
     }
   };
 
+  // on Create return all data from form
+  const handleCreate = () =>
+    onCreate({
+      title: taskTittle,
+      alternatives: alternatives.toJS(),
+      experts: selectedExperts.toJS()
+    });
+
   return (
-    <Dialog open={open} onClose={onForceClose}>
-      <DialogTitle id="form-dialog-title">Task creation</DialogTitle>
+    <Dialog open={open} onClose={onForceClose} maxWidth="md" fullWidth>
+      <DialogTitle id="form-dialog-title">{modalTitle}</DialogTitle>
       <DialogContent>
-        <TextField
-          autoFocus
-          fullWidth
-          margin="dense"
-          label="Task tittle"
-          value={taskTittle}
-          onChange={handleTaskTittleChange}
-        />
-        <AlternativesList
+        <Grid container item direction="row" wrap="nowrap">
+          <TextField
+            autoFocus
+            fullWidth
+            margin="dense"
+            label="Task tittle"
+            value={taskTittle}
+            onChange={handleTaskTittleChange}
+          />
+          <FormControl style={{ marginTop: '5px', width: '40%' }}>
+            <InputLabel id="label">Method</InputLabel>
+            <Select labelId="label" value={method} onChange={handleMethodChange}>
+              {METHODS.map(role => (
+                <MenuItem value={role.label} key={role.id}>
+                  {role.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Alternative
           alternatives={alternatives.toJS()}
+          onAlternativeCreate={handleAlternativeCreate}
           onAlternativeChange={handleAlternativeChange}
           onAlternativeDelete={handleAlternativeDelete}
         />
-        <ExpertsList expertsIds={selectedExperts} onDelete={handleExpertDelete} users={users} />
+        <ExpertsList expertsIds={selectedExperts} onDelete={handleExpertDelete} users={usersByIds} />
         <Autocomplete
           options={experts}
           getOptionLabel={getFullName}
@@ -73,7 +118,7 @@ const TaskCreationModal = ({ open, onClose, onForceClose, onCreate, task }) => {
         <Button onClick={onClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={onCreate} color="primary">
+        <Button onClick={handleCreate} color="primary">
           Create
         </Button>
       </DialogActions>

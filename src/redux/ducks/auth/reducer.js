@@ -16,7 +16,7 @@ const authReducer = (state = initialState, { type, payload }) => {
           ...state.users,
           [payload.id]: payload
         },
-        usersIds: [state.usersIds, payload.id],
+        usersIds: [...state.usersIds, payload.id],
         user: payload,
         isLoggedIn: true
       };

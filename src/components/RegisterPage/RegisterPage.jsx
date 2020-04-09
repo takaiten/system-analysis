@@ -66,7 +66,7 @@ const RegisterPage = () => {
   const classes = useStyles();
 
   const [fields, setFields] = useState({
-    role: 'Expert',
+    role: roles[0].label,
     firstName: '',
     lastName: '',
     nickname: '',
@@ -98,7 +98,10 @@ const RegisterPage = () => {
 
   const handleCancel = () => dispatch(goBack());
 
-  const handleSubmit = () => validateFields() && dispatch(addUserAction(fields)) && dispatch(push(MAIN));
+  const handleSubmit = () =>
+    validateFields() &&
+    dispatch(addUserAction({ ...fields, id: Math.round(new Date() / 1e3) })) &&
+    dispatch(push(MAIN));
 
   return (
     <div className={classes.root}>

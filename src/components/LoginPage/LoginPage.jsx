@@ -75,11 +75,12 @@ const LoginPage = () => {
     }));
 
   const handleSubmit = () => {
-    const user = findUserByNickname(fields, usersByIds, usersIds);
+    const userId = findUserByNickname(fields, usersByIds, usersIds);
 
-    if (!user) {
+    if (!userId) {
       return setFieldsErrors(prevState => ({ ...prevState, nickname: userNotFoundErrorMsg }));
     }
+    const user = usersByIds[userId];
     if (user.password !== fields.password) {
       return setFieldsErrors(prevState => ({ ...prevState, password: wrongPasswordErrorMsg }));
     }

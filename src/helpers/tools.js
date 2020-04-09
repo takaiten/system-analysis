@@ -3,4 +3,5 @@ export const isValidPassword = password => password && password.length > 4;
 export const isValidInput = value => /^[\w ]*$/.test(value);
 export const findUserByNickname = ({ nickname }, usersByIds, usersIds) =>
   usersIds.find(userId => usersByIds[userId].nickname === nickname);
-export const getFullName = ({ firstName, lastName }) => `${firstName} ${lastName}`;
+export const getFullName = ({ firstName, lastName }) =>
+  firstName && lastName ? `${firstName} ${lastName}` : '';
