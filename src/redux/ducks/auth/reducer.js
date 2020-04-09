@@ -13,7 +13,7 @@ const authReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         usersById: {
-          ...state.users,
+          ...state.usersById,
           [payload.id]: payload
         },
         usersIds: [...state.usersIds, payload.id],
