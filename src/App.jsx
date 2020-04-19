@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unused-modules */
 import React from 'react';
 import { Redirect, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';

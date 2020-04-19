@@ -24,7 +24,7 @@ const ExpertsList = ({ expertsIds, users, onDelete }) => {
         Experts on this task:
       </Typography>
       <Paper className={classes.root}>
-        {expertsIds.length ? (
+        {expertsIds.size ? (
           expertsIds.map((userId, index) => {
             const { firstName, lastName } = users[userId];
             return (
