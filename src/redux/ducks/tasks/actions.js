@@ -15,3 +15,11 @@ export const editTaskAction = (task, userId) => ({
     userId
   }
 });
+
+export const deleteTaskAction = (userId, taskId) => ({
+  type: types.DELETE_TASK,
+  payload: {
+    userId,
+    taskId
+  }
+});
