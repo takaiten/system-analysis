@@ -2,14 +2,18 @@ import React from 'react';
 import { List, ListItem, ListItemText, Paper, Typography } from '@material-ui/core';
 import { AssignedItem } from './AssignedItem';
 
-const AssignedList = ({ tasks, onTaskDelete }) => {
+const AssignedList = ({ tasks, onTaskClick, onTaskDelete }) => {
   return (
     <Paper>
-      <List style={{ height: '70vh', overflowY: 'auto' }}>
-        {Object.keys(tasks).length ? (
-          // Object.keys(tasks).forEach(element => <AssignedItem task={tasks[element]} />)
+      <List style={{ height: '80vh', overflowY: 'auto' }}>
+        {tasks ? (
           Object.keys(tasks).map(element => (
-            <AssignedItem task={tasks[element]} onTaskDelete={onTaskDelete(tasks[element].id)} />
+            <AssignedItem
+              key={element}
+              task={tasks[element]}
+              onTaskDelete={onTaskDelete(tasks[element].id)}
+              onTaskClick={onTaskClick(tasks[element].id)}
+            />
           ))
         ) : (
           <ListItem>

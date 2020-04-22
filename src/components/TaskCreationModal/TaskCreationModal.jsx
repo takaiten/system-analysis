@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -23,13 +23,14 @@ import { getUsersByIds, getUsersIds } from '../../redux/ducks/auth/selectors';
 import { Alternative } from '../Alternative';
 import { ExpertsList } from '../ExpertsList';
 
-const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, task }) => {
+const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, onEdit, task }) => {
   const usersIds = useSelector(getUsersIds);
   const usersByIds = useSelector(getUsersByIds);
 
-  const experts = usersIds
-    .filter(userId => usersByIds[userId].role === expert)
-    .map(userId => usersByIds[userId]);
+  const filterExperts = (ids, users) =>
+    ids.filter(userId => users[userId].role === expert).map(userId => users[userId]);
+
+  const experts = useMemo(() => filterExperts(usersIds, usersByIds), [usersIds, usersByIds]);
 
   // Title
   const [taskTittle, setTaskTittle] = useState(task?.tittle || 'Task');
@@ -69,6 +70,13 @@ const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, 
   // on Create return all data from form
   const handleCreate = () =>
     onCreate({
+      title: taskTittle,
+      alternatives: alternatives.toJS(),
+      experts: selectedExperts.toJS()
+    });
+  const handleEdit = () =>
+    onEdit({
+      ...task,
       title: taskTittle,
       alternatives: alternatives.toJS(),
       experts: selectedExperts.toJS()
@@ -118,9 +126,15 @@ const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, 
         <Button onClick={onClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleCreate} color="primary">
-          Create
-        </Button>
+        {task ? (
+          <Button variant="contained" color="primary" onClick={handleEdit}>
+            Edit
+          </Button>
+        ) : (
+          <Button variant="contained" color="primary" onClick={handleCreate}>
+            Create
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );

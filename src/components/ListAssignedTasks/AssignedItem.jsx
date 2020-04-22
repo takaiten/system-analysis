@@ -13,10 +13,10 @@ import { Delete as DeleteIcon } from '@material-ui/icons';
 
 import { red } from '@material-ui/core/colors';
 
-const AssignedItem = ({ task, onTaskDelete }) => {
+const AssignedItem = ({ task, onTaskClick, onTaskDelete }) => {
   return (
     <Paper>
-      <ListItem button>
+      <ListItem button onClick={onTaskClick}>
         <ListItemText>
           <Typography>{task.title}</Typography>
         </ListItemText>

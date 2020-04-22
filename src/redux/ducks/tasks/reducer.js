@@ -3,6 +3,7 @@ import * as types from './types';
 
 const initialState = {
   tasks: {} // task[userId] = task[]
+  // taskIds: []
 };
 
 const tasksReducer = (state = initialState, { type, payload }) => {
@@ -17,6 +18,7 @@ const tasksReducer = (state = initialState, { type, payload }) => {
             [task.id]: task
           }
         }
+        // taskIds: [...state.taskIds, task.id]
       };
     }
     case types.EDIT_TASK: {
@@ -38,6 +40,7 @@ const tasksReducer = (state = initialState, { type, payload }) => {
           ...state.tasks,
           [userId]: omit(state.tasks[userId], [taskId])
         }
+        // taskIds: omit(state.taskIds, [taskId])
       };
     }
     default:

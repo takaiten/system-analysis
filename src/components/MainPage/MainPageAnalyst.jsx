@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/ducks/auth/selectors';
 import { getTasks } from '../../redux/ducks/tasks/selectors';
-import { addTaskAction, deleteTaskAction } from '../../redux/ducks/tasks/actions';
+import { addTaskAction, deleteTaskAction, editTaskAction } from '../../redux/ducks/tasks/actions';
 
 import { AssignedList } from '../ListAssignedTasks/AssignedList';
 import { Navbar } from '../Navbar';
@@ -27,23 +27,40 @@ const MainPageAnalyst = () => {
   const tasks = useSelector(getTasks);
   const classes = useStyles();
   const dispatch = useDispatch();
+
   const [modalState, setModalState] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(undefined);
 
   const handleOpenModal = () => setModalState(true);
   const handleCloseModal = () => setModalState(false);
-  const handleTaskCreate = task =>
+
+  const handleTaskCreate = task => {
     dispatch(addTaskAction({ ...task, id: Math.round(new Date() / 1e3) }, users.id));
+    setSelectedTask(undefined);
+    handleCloseModal();
+  };
+  const handleTaskEdit = task => {
+    dispatch(editTaskAction(task, users.id));
+    setSelectedTask(undefined);
+    handleCloseModal();
+  };
   const handleTaskDelete = taskId => () => dispatch(deleteTaskAction(users.id, taskId));
+  const handleTaskClick = taskId => () => {
+    setSelectedTask(taskId);
+    handleOpenModal();
+  };
 
   return (
     <>
       <Navbar />
-      <AssignedList tasks={tasks[users.id]} onTaskDelete={handleTaskDelete} />
+      <AssignedList tasks={tasks[users.id]} onTaskDelete={handleTaskDelete} onTaskClick={handleTaskClick} />
       <TaskCreationModal
         modalTitle="Task creation"
         open={modalState}
+        task={selectedTask && tasks[users.id][selectedTask]}
         onClose={handleCloseModal}
         onCreate={handleTaskCreate}
+        onEdit={handleTaskEdit}
       />
       <Fab
         variant="extended"
