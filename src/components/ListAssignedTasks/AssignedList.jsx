@@ -6,7 +6,7 @@ const AssignedList = ({ tasks, onTaskDelete }) => {
   return (
     <Paper>
       <List style={{ height: '70vh', overflowY: 'auto' }}>
-        {Object.keys(tasks).length ? (
+        {Object.keys(tasks).length && tasks ? (
           // Object.keys(tasks).forEach(element => <AssignedItem task={tasks[element]} />)
           Object.keys(tasks).map(element => (
             <AssignedItem task={tasks[element]} onTaskDelete={onTaskDelete(tasks[element].id)} />
