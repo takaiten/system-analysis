@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -33,7 +33,7 @@ const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, 
   const experts = useMemo(() => filterExperts(usersIds, usersByIds), [usersIds, usersByIds]);
 
   // Title
-  const [taskTittle, setTaskTittle] = useState(task?.tittle || 'Task');
+  const [taskTittle, setTaskTittle] = useState('Task');
 
   const handleTaskTittleChange = ({ target }) => setTaskTittle(target.value);
 
@@ -43,7 +43,7 @@ const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, 
   const handleMethodChange = ({ target }) => setMethod(target.value);
 
   // Alternatives
-  const [alternatives, setAlternatives] = useState(task ? List(task.alternatives) : List());
+  const [alternatives, setAlternatives] = useState(List());
 
   const handleAlternativeCreate = () =>
     setAlternatives(prevState => prevState.push(`Alternative #${prevState.size + 1}`));
@@ -51,7 +51,7 @@ const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, 
   const handleAlternativeChange = index => value => setAlternatives(prevState => prevState.set(index, value));
 
   // Experts
-  const [selectedExperts, setSelectedExperts] = useState(task ? List(task.experts) : List());
+  const [selectedExperts, setSelectedExperts] = useState(List());
 
   const handleExpertDelete = index => () => setSelectedExperts(prevState => prevState.delete(index));
   const handleExpertAddition = userId => setSelectedExperts(prevState => prevState.push(userId));
@@ -82,6 +82,21 @@ const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, 
       experts: selectedExperts.toJS()
     });
 
+  useEffect(() => {
+    if (task) {
+      setTaskTittle(task.title);
+      setMethod(task.method);
+      setAlternatives(List(task.alternatives));
+      setSelectedExperts(List(task.experts));
+    }
+    return () => {
+      setTaskTittle('Task');
+      setMethod(METHODS[0].label);
+      setAlternatives(List());
+      setSelectedExperts(List());
+    };
+  }, [task]);
+
   return (
     <Dialog open={open} onClose={onForceClose} maxWidth="md" fullWidth>
       <DialogTitle id="form-dialog-title">{modalTitle}</DialogTitle>
@@ -95,7 +110,7 @@ const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, 
             value={taskTittle}
             onChange={handleTaskTittleChange}
           />
-          <FormControl style={{ marginTop: '5px', width: '40%' }}>
+          <FormControl style={{ marginTop: '5px', width: '40%' }} disabled={!!task}>
             <InputLabel id="label">Method</InputLabel>
             <Select labelId="label" value={method} onChange={handleMethodChange}>
               {METHODS.map(role => (
