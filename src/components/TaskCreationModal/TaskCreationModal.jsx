@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -23,16 +23,17 @@ import { getUsersByIds, getUsersIds } from '../../redux/ducks/auth/selectors';
 import { Alternative } from '../Alternative';
 import { ExpertsList } from '../ExpertsList';
 
-const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, task }) => {
+const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, onEdit, task }) => {
   const usersIds = useSelector(getUsersIds);
   const usersByIds = useSelector(getUsersByIds);
 
-  const experts = usersIds
-    .filter(userId => usersByIds[userId].role === expert)
-    .map(userId => usersByIds[userId]);
+  const filterExperts = (ids, users) =>
+    ids.filter(userId => users[userId].role === expert).map(userId => users[userId]);
+
+  const experts = useMemo(() => filterExperts(usersIds, usersByIds), [usersIds, usersByIds]);
 
   // Title
-  const [taskTittle, setTaskTittle] = useState(task?.tittle || 'Task');
+  const [taskTittle, setTaskTittle] = useState('Task');
 
   const handleTaskTittleChange = ({ target }) => setTaskTittle(target.value);
 
@@ -42,7 +43,7 @@ const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, 
   const handleMethodChange = ({ target }) => setMethod(target.value);
 
   // Alternatives
-  const [alternatives, setAlternatives] = useState(task ? List(task.alternatives) : List());
+  const [alternatives, setAlternatives] = useState(List());
 
   const handleAlternativeCreate = () =>
     setAlternatives(prevState => prevState.push(`Alternative #${prevState.size + 1}`));
@@ -50,7 +51,7 @@ const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, 
   const handleAlternativeChange = index => value => setAlternatives(prevState => prevState.set(index, value));
 
   // Experts
-  const [selectedExperts, setSelectedExperts] = useState(task ? List(task.experts) : List());
+  const [selectedExperts, setSelectedExperts] = useState(List());
 
   const handleExpertDelete = index => () => setSelectedExperts(prevState => prevState.delete(index));
   const handleExpertAddition = userId => setSelectedExperts(prevState => prevState.push(userId));
@@ -73,6 +74,28 @@ const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, 
       alternatives: alternatives.toJS(),
       experts: selectedExperts.toJS()
     });
+  const handleEdit = () =>
+    onEdit({
+      ...task,
+      title: taskTittle,
+      alternatives: alternatives.toJS(),
+      experts: selectedExperts.toJS()
+    });
+
+  useEffect(() => {
+    if (task) {
+      setTaskTittle(task.title);
+      setMethod(task.method);
+      setAlternatives(List(task.alternatives));
+      setSelectedExperts(List(task.experts));
+    }
+    return () => {
+      setTaskTittle('Task');
+      setMethod(METHODS[0].label);
+      setAlternatives(List());
+      setSelectedExperts(List());
+    };
+  }, [task]);
 
   return (
     <Dialog open={open} onClose={onForceClose} maxWidth="md" fullWidth>
@@ -87,7 +110,7 @@ const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, 
             value={taskTittle}
             onChange={handleTaskTittleChange}
           />
-          <FormControl style={{ marginTop: '5px', width: '40%' }}>
+          <FormControl style={{ marginTop: '5px', width: '40%' }} disabled={!!task}>
             <InputLabel id="label">Method</InputLabel>
             <Select labelId="label" value={method} onChange={handleMethodChange}>
               {METHODS.map(role => (
@@ -118,9 +141,15 @@ const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, 
         <Button onClick={onClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleCreate} color="primary">
-          Create
-        </Button>
+        {task ? (
+          <Button variant="contained" color="primary" onClick={handleEdit}>
+            Edit
+          </Button>
+        ) : (
+          <Button variant="contained" color="primary" onClick={handleCreate}>
+            Create
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );
