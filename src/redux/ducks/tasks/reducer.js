@@ -2,45 +2,52 @@ import { omit } from 'lodash';
 import * as types from './types';
 
 const initialState = {
-  tasks: {} // task[userId] = task[]
-  // taskIds: []
+  tasks: {},
+  usersTasks: {},
 };
+
+const generateUsersObject = (usersTasks, arrayOfUsersIds, taskId) =>
+  arrayOfUsersIds.reduce(
+    (acc, userId) => ({
+      ...acc,
+      [userId]: [...(usersTasks[userId] || []), taskId],
+    }),
+    {},
+  );
 
 const tasksReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.ADD_TASK: {
       const { userId, task } = payload;
+      const usersWithTaskId = generateUsersObject(state.usersTasks, [...task.experts, userId], task.id);
+
       return {
         tasks: {
           ...state.tasks,
-          [userId]: {
-            ...state.tasks[userId],
-            [task.id]: task
-          }
-        }
-        // taskIds: [...state.taskIds, task.id]
+          [task.id]: task,
+        },
+        usersTasks: {
+          ...state.usersTasks,
+          ...usersWithTaskId,
+        },
       };
     }
     case types.EDIT_TASK: {
-      const { userId, task } = payload;
+      const { task } = payload;
       return {
         tasks: {
           ...state.tasks,
-          [payload.userId]: {
-            ...state.tasks[userId],
-            [task.id]: task
-          }
-        }
+          [task.id]: task,
+        },
       };
     }
     case types.DELETE_TASK: {
       const { userId, taskId } = payload;
       return {
-        tasks: {
-          ...state.tasks,
-          [userId]: omit(state.tasks[userId], [taskId])
-        }
-        // taskIds: omit(state.taskIds, [taskId])
+        tasks: omit(state.tasks, [taskId]),
+        usersTasks: {
+          [userId]: omit(state.usersTasks[userId], [taskId]),
+        },
       };
     }
     default:

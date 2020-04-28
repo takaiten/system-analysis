@@ -4,16 +4,25 @@ import { Add as AddIcon } from '@material-ui/icons';
 
 import { AlternativesList } from './AlternativesList';
 
-const Alternative = ({ alternatives, onAlternativeCreate, onAlternativeChange, onAlternativeDelete }) => {
+const Alternative = ({
+  canEdit,
+  alternatives,
+  onAlternativeCreate,
+  onAlternativeChange,
+  onAlternativeDelete,
+}) => {
   return (
     <div>
       <Typography variant="subtitle2" color="textSecondary" style={{ marginTop: '0.5rem' }}>
         Alternatives in this task:
       </Typography>
-      <Button variant="contained" color="default" startIcon={<AddIcon />} onClick={onAlternativeCreate}>
-        Create
-      </Button>
+      {canEdit && (
+        <Button variant="contained" color="default" startIcon={<AddIcon />} onClick={onAlternativeCreate}>
+          Create
+        </Button>
+      )}
       <AlternativesList
+        canEdit={canEdit}
         alternatives={alternatives}
         onAlternativeChange={onAlternativeChange}
         onAlternativeDelete={onAlternativeDelete}

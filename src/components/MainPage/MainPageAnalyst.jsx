@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Add } from '@material-ui/icons';
 import { Fab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,20 +6,36 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AssignedList } from '../ListAssignedTasks/AssignedList';
 import { Navbar } from '../Navbar';
 import { TaskCreationModal } from '../TaskCreationModal';
+import { expert } from '../../helpers/consts';
 
 const useStyles = makeStyles(theme => ({
   fab: {
     position: 'absolute',
     bottom: theme.spacing(2),
-    right: theme.spacing(2)
+    right: theme.spacing(2),
   },
   extendedIcon: {
-    marginRight: theme.spacing(2)
-  }
+    marginRight: theme.spacing(2),
+  },
 }));
 
-const MainPageAnalyst = ({ user, tasks, addTask, deleteTask, editTask }) => {
+const filterExperts = (ids, users) =>
+  ids.filter(userId => users[userId].role === expert).map(userId => users[userId]);
+
+const MainPageAnalyst = ({
+  user,
+  usersIds,
+  usersByIds,
+  tasks,
+  usersTasks,
+  addTask,
+  deleteTask,
+  editTask,
+}) => {
   const classes = useStyles();
+
+  const experts = useMemo(() => filterExperts(usersIds, usersByIds), [usersIds, usersByIds]);
+  const userTasks = useMemo(() => usersTasks[user.id], [user, usersTasks]);
 
   const [modalState, setModalState] = useState(false);
   const [selectedTask, setSelectedTask] = useState(undefined);
@@ -37,7 +53,7 @@ const MainPageAnalyst = ({ user, tasks, addTask, deleteTask, editTask }) => {
     handleCloseModal();
   };
   const handleTaskEdit = task => {
-    editTask(task, user.id);
+    editTask(task);
     setSelectedTask(undefined);
     handleCloseModal();
   };
@@ -47,19 +63,22 @@ const MainPageAnalyst = ({ user, tasks, addTask, deleteTask, editTask }) => {
     handleOpenModal();
   };
 
-  const getSelectedTask = useCallback(() => selectedTask && tasks[user.id][selectedTask], [
-    tasks,
-    user,
-    selectedTask
-  ]);
+  const getSelectedTask = useCallback(() => selectedTask && tasks[selectedTask], [tasks, selectedTask]);
 
   return (
     <>
       <Navbar />
-      <AssignedList tasks={tasks[user.id]} onTaskDelete={handleTaskDelete} onTaskClick={handleTaskClick} />
+      <AssignedList
+        tasksIds={userTasks}
+        tasksByIds={tasks}
+        onTaskDelete={handleTaskDelete}
+        onTaskClick={handleTaskClick}
+      />
       <TaskCreationModal
         modalTitle="Task creation"
         open={modalState}
+        experts={experts}
+        usersByIds={usersByIds}
         task={getSelectedTask()}
         onClose={handleCloseModal}
         onCreate={handleTaskCreate}

@@ -39,5 +39,5 @@ const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(
   createRootReducer(history),
   persistedState,
-  composeEnhancer(applyMiddleware(routerMiddleware))
+  composeEnhancer(applyMiddleware(routerMiddleware)),
 );

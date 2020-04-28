@@ -3,12 +3,13 @@ import { Redirect, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getLoggedState, getUserRole } from './redux/ducks/auth/selectors';
 import {
+  AssignedTask,
   LoginPage,
   MainPageAnalyst,
   MainPageExpert,
   PrivateRoute,
   RegisterPage,
-  WelcomePage
+  WelcomePage,
 } from './components';
 import * as ROUTES from './routes';
 import { expert } from './helpers/consts';
@@ -39,6 +40,13 @@ export default () => {
         to={ROUTES.MAIN}
         isAuthenticated={!logged}
         component={LoginPage}
+      />
+      <PrivateRoute
+        exact
+        from={ROUTES.VIEW_TASK}
+        to={ROUTES.MAIN}
+        isAuthenticated={logged}
+        component={AssignedTask}
       />
       <PrivateRoute
         exact

@@ -1,18 +1,19 @@
 import React from 'react';
-import { List, ListItem, ListItemText, Paper, Typography } from '@material-ui/core';
+import { ListItemText, Paper, Typography } from '@material-ui/core';
 import { AssignedItem } from './AssignedItem';
+import { StyledList as List, StyledListItem as ListItem } from './AssignedList.style';
 
-const AssignedList = ({ tasks, onTaskClick, onTaskDelete }) => {
+const AssignedList = ({ tasksIds, tasksByIds, onTaskClick, onTaskDelete }) => {
   return (
     <Paper>
-      <List style={{ height: '80vh', overflowY: 'auto' }}>
-        {tasks ? (
-          Object.keys(tasks).map(element => (
+      <List>
+        {tasksIds.length ? (
+          tasksIds.map(id => (
             <AssignedItem
-              key={element}
-              task={tasks[element]}
-              onTaskDelete={onTaskDelete(tasks[element].id)}
-              onTaskClick={onTaskClick(tasks[element].id)}
+              key={id}
+              task={tasksByIds[id]}
+              onTaskDelete={onTaskDelete(tasksByIds[id].id)}
+              onTaskClick={onTaskClick(tasksByIds[id].id)}
             />
           ))
         ) : (

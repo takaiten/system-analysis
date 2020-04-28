@@ -1,17 +1,9 @@
 import React from 'react';
-
-import {
-  IconButton,
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
-  Paper,
-  Typography
-} from '@material-ui/core';
-
+import { IconButton, ListItemSecondaryAction, ListItemText, Paper, Typography } from '@material-ui/core';
 import { Delete as DeleteIcon } from '@material-ui/icons';
-
 import { red } from '@material-ui/core/colors';
+
+import { StyledListItem as ListItem } from './AssignedList.style';
 
 const AssignedItem = ({ task, onTaskClick, onTaskDelete }) => {
   return (

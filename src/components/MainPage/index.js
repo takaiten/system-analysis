@@ -1,22 +1,35 @@
 import { connect } from 'react-redux';
 import { MainPageAnalyst } from './MainPageAnalyst';
-import { addTaskAction, deleteTaskAction, editTaskAction } from '../../redux/ducks/tasks/actions';
-import { getUser } from '../../redux/ducks/auth/selectors';
-import { getTasks } from '../../redux/ducks/tasks/selectors';
+import { MainPageExpert } from './MainPageExpert';
 
-const mapStateToProps = state => ({
+import { addTaskAction, deleteTaskAction, editTaskAction } from '../../redux/ducks/tasks/actions';
+import { getUser, getUsersByIds, getUsersIds } from '../../redux/ducks/auth/selectors';
+import { getTasks, getUsersTasks } from '../../redux/ducks/tasks/selectors';
+
+const mapStateToPropsAnalyst = state => ({
   user: getUser(state),
-  tasks: getTasks(state)
+  usersIds: getUsersIds(state),
+  usersByIds: getUsersByIds(state),
+  tasks: getTasks(state),
+  usersTasks: getUsersTasks(state),
 });
 
-const mapDispatchToProps = {
+const mapDispatchToPropsAnalyst = {
   addTask: addTaskAction,
   deleteTask: deleteTaskAction,
-  editTask: editTaskAction
+  editTask: editTaskAction,
 };
 
-const connectedMainPageAnalyst = connect(mapStateToProps, mapDispatchToProps)(MainPageAnalyst);
-
+const connectedMainPageAnalyst = connect(mapStateToPropsAnalyst, mapDispatchToPropsAnalyst)(MainPageAnalyst);
 export { connectedMainPageAnalyst as MainPageAnalyst };
 
-export { MainPageExpert } from './MainPageExpert';
+const mapStateToPropsExpert = state => ({
+  user: getUser(state),
+  usersTasks: getUsersTasks(state),
+  tasksByIds: getTasks(state),
+});
+
+const mapDispatchToPropsExpert = {};
+
+const connectedMainPageExpert = connect(mapStateToPropsExpert, mapDispatchToPropsExpert)(MainPageExpert);
+export { connectedMainPageExpert as MainPageExpert };

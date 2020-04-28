@@ -3,14 +3,15 @@ import { List, ListItem, ListItemText, Paper, Typography } from '@material-ui/co
 
 import { AlternativeItem } from './AlternativeItem';
 
-const AlternativesList = ({ alternatives, onAlternativeChange, onAlternativeDelete }) => {
+const AlternativesList = ({ canEdit, alternatives, onAlternativeChange, onAlternativeDelete }) => {
   return (
     <Paper>
       <List style={{ height: '35vh', overflowY: 'auto' }}>
         {alternatives.length ? (
           alternatives.map((text, index) => (
             <AlternativeItem
-              key={text}
+              canEdit={canEdit}
+              key={`${text}${index}`}
               alternativeText={text}
               onAlternativeChange={onAlternativeChange(index)}
               onAlternativeDelete={onAlternativeDelete(index)}

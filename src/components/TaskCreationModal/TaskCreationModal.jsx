@@ -10,35 +10,35 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  TextField
+  TextField,
 } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { List } from 'immutable';
-import { useSelector } from 'react-redux';
 
-import { METHODS, expert } from '../../helpers/consts';
+import { METHODS } from '../../helpers/consts';
 import { getFullName } from '../../helpers/tools';
-import { getUsersByIds, getUsersIds } from '../../redux/ducks/auth/selectors';
 
 import { Alternative } from '../Alternative';
 import { ExpertsList } from '../ExpertsList';
 
-const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, onEdit, task }) => {
-  const usersIds = useSelector(getUsersIds);
-  const usersByIds = useSelector(getUsersByIds);
-
-  const filterExperts = (ids, users) =>
-    ids.filter(userId => users[userId].role === expert).map(userId => users[userId]);
-
-  const experts = useMemo(() => filterExperts(usersIds, usersByIds), [usersIds, usersByIds]);
-
+const TaskCreationModal = ({
+  open,
+  modalTitle,
+  onClose,
+  onForceClose,
+  onCreate,
+  onEdit,
+  task,
+  experts,
+  usersByIds,
+}) => {
   // Title
   const [taskTittle, setTaskTittle] = useState('Task');
 
   const handleTaskTittleChange = ({ target }) => setTaskTittle(target.value);
 
   // Method
-  const [method, setMethod] = useState(task ? task.method : METHODS[0].label);
+  const [method, setMethod] = useState(METHODS[0].label);
 
   const handleMethodChange = ({ target }) => setMethod(target.value);
 
@@ -56,6 +56,11 @@ const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, 
   const handleExpertDelete = index => () => setSelectedExperts(prevState => prevState.delete(index));
   const handleExpertAddition = userId => setSelectedExperts(prevState => prevState.push(userId));
 
+  const notSelectedExperts = useMemo(() => experts.filter(user => !selectedExperts.includes(user.id)), [
+    experts,
+    selectedExperts,
+  ]);
+
   // Search
   const [search, setSearch] = useState({});
 
@@ -70,16 +75,16 @@ const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, 
   // on Create return all data from form
   const handleCreate = () =>
     onCreate({
+      method,
       title: taskTittle,
       alternatives: alternatives.toJS(),
-      experts: selectedExperts.toJS()
+      experts: selectedExperts.toJS(),
     });
   const handleEdit = () =>
     onEdit({
       ...task,
       title: taskTittle,
-      alternatives: alternatives.toJS(),
-      experts: selectedExperts.toJS()
+      experts: selectedExperts.toJS(),
     });
 
   useEffect(() => {
@@ -110,9 +115,9 @@ const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, 
             value={taskTittle}
             onChange={handleTaskTittleChange}
           />
-          <FormControl style={{ marginTop: '5px', width: '40%' }} disabled={!!task}>
+          <FormControl style={{ marginTop: '5px', width: '40%' }}>
             <InputLabel id="label">Method</InputLabel>
-            <Select labelId="label" value={method} onChange={handleMethodChange}>
+            <Select labelId="label" value={method} onChange={handleMethodChange} disabled={!!task}>
               {METHODS.map(role => (
                 <MenuItem value={role.label} key={role.id}>
                   {role.label}
@@ -122,14 +127,15 @@ const TaskCreationModal = ({ open, modalTitle, onClose, onForceClose, onCreate, 
           </FormControl>
         </Grid>
         <Alternative
+          canEdit={!task}
           alternatives={alternatives.toJS()}
           onAlternativeCreate={handleAlternativeCreate}
           onAlternativeChange={handleAlternativeChange}
           onAlternativeDelete={handleAlternativeDelete}
         />
-        <ExpertsList expertsIds={selectedExperts} onDelete={handleExpertDelete} users={usersByIds} />
+        <ExpertsList expertsIds={selectedExperts} onDelete={handleExpertDelete} usersByIds={usersByIds} />
         <Autocomplete
-          options={experts}
+          options={notSelectedExperts}
           getOptionLabel={getFullName}
           value={search}
           onChange={handleSearchSelect}

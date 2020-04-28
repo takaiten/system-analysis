@@ -10,17 +10,17 @@ export const analyst = 'Analyst';
 export const roles = [
   {
     id: 1,
-    label: expert
+    label: expert,
   },
   {
     id: 2,
-    label: analyst
-  }
+    label: analyst,
+  },
 ];
 
 export const METHODS = [
   {
     id: 1,
-    label: 'Pair comparison'
-  }
+    label: 'Pair comparison',
+  },
 ];

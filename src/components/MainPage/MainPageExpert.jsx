@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Navbar } from '../Navbar';
 
-const MainPageExpert = () => {
+import { ExpertAssignedTasksList } from '../ExpertAssignedTasksList';
+
+const MainPageExpert = ({ user, usersTasks, tasksByIds }) => {
+  const userTasksIds = useMemo(() => usersTasks[user.id], [user, usersTasks]);
+
   return (
     <>
       <Navbar />
-      <h1>Main Page expert</h1>
+      <ExpertAssignedTasksList userTasksIds={userTasksIds} tasksByIds={tasksByIds} />
     </>
   );
 };

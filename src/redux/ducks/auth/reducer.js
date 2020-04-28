@@ -4,7 +4,7 @@ const initialState = {
   usersById: {},
   usersIds: [],
   user: null,
-  isLoggedIn: false
+  isLoggedIn: false,
 };
 
 const authReducer = (state = initialState, { type, payload }) => {
@@ -14,23 +14,23 @@ const authReducer = (state = initialState, { type, payload }) => {
         ...state,
         usersById: {
           ...state.usersById,
-          [payload.id]: payload
+          [payload.id]: payload,
         },
         usersIds: [...state.usersIds, payload.id],
         user: payload,
-        isLoggedIn: true
+        isLoggedIn: true,
       };
     case types.LOGIN:
       return {
         ...state,
         user: payload,
-        isLoggedIn: true
+        isLoggedIn: true,
       };
     case types.LOGOUT:
       return {
         ...state,
         user: null,
-        isLoggedIn: false
+        isLoggedIn: false,
       };
     default:
       return state;
