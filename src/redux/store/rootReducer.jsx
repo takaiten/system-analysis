@@ -7,5 +7,5 @@ export default history =>
     router: connectRouter(history),
     // TODO: Put reducers here
     auth: authReducer,
-    tasks: tasksReducer
+    tasks: tasksReducer,
   });

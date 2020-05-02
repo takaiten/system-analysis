@@ -23,4 +23,8 @@ export const METHODS = [
     id: 1,
     label: 'Pair comparison',
   },
+  {
+    id: 2,
+    label: 'Pair comparison2',
+  },
 ];

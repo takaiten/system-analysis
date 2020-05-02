@@ -1,11 +1,11 @@
 import React from 'react';
 import { AppBar, Button, IconButton, Toolbar, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 
 import HomeIcon from '@material-ui/icons/Home';
 
+import { makeStyles } from '@material-ui/core/styles';
 import { getUser } from '../../redux/ducks/auth/selectors';
 import { logoutAction } from '../../redux/ducks/auth/actions';
 import { MAIN } from '../../routes';

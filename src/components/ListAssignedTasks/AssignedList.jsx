@@ -7,7 +7,7 @@ const AssignedList = ({ tasksIds, tasksByIds, onTaskClick, onTaskDelete }) => {
   return (
     <Paper>
       <List>
-        {tasksIds.length ? (
+        {tasksIds ? (
           tasksIds.map(id => (
             <AssignedItem
               key={id}
