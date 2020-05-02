@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Fab, ListItemText, Paper, Typography } from '@material-ui/core';
 import { Check as CheckIcon } from '@material-ui/icons';
 
@@ -9,18 +9,48 @@ import { StyledList as List, StyledListItem as ListItem } from '../ListAssignedT
 
 import { combination } from '../../helpers/tools';
 
+const constructSquareMatrix = (n, value = 0) =>
+  Array(n)
+    .fill()
+    .map(() => Array(n).fill(value));
+
+const constructDiagonalMatrix = (n, value = 1) => {
+  const matrix = constructSquareMatrix(n);
+  for (let i = 0; i < matrix.length; i++) {
+    matrix[i][i] = value;
+  }
+  return matrix;
+};
+
 export const PairComparisonTest = ({ task }) => {
   const classes = useStyles();
   // stores task answers like this : {[test number]: index of selected alternative }
-  const [taskAnswers, setTaskAnswers] = useState({});
+  const taskAnswers = constructDiagonalMatrix(task.alternatives.length);
 
-  const handleChange = ({ target }) => {
-    const [, answerIndex, testNumber] = target.value.match(/(-?\d+)-(\d+)/);
-    setTaskAnswers(prevState => ({ ...prevState, [+testNumber]: Number(answerIndex) }));
-  };
+  const processAnswer = useCallback(
+    (answerIndex, secondIndex, none = false) => {
+      if (none) {
+        taskAnswers[answerIndex][secondIndex] = 0.5;
+        taskAnswers[secondIndex][answerIndex] = 0.5;
+      } else {
+        taskAnswers[answerIndex][secondIndex] = 1;
+        taskAnswers[secondIndex][answerIndex] = 0;
+      }
+    },
+    [taskAnswers],
+  );
+
+  const handleChange = useCallback(
+    ({ target }) => {
+      const [, answerIndex, secondIndex, flag] = target.value.match(/(\d+)-(\d+)([-|+])/);
+      processAnswer(answerIndex, secondIndex, flag === '+');
+    },
+    [processAnswer],
+  );
 
   const comparisonCount = useMemo(() => combination(task.alternatives.length, 2), [task]);
 
+  // Think of the other way to check
   const isSubmitDisabled = useMemo(() => comparisonCount !== Object.keys(taskAnswers).length, [
     comparisonCount,
     taskAnswers,
@@ -61,7 +91,7 @@ export const PairComparisonTest = ({ task }) => {
       }
     }
     return result;
-  }, [task]);
+  }, [task, handleChange]);
 
   return (
     <Paper>
