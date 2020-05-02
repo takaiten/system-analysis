@@ -6,7 +6,7 @@ export const StyledList = styled(List)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  height: '80vh',
+  height: 'calc(100vh - 96px)',
   overflowY: 'auto',
   '&& > div': {
     marginTop: '16px',
@@ -14,5 +14,6 @@ export const StyledList = styled(List)({
 });
 
 export const StyledListItem = styled(ListItem)({
+  paddingTop: '1rem',
   width: '50vw',
 });

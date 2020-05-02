@@ -3,16 +3,24 @@ import { FormControl, FormControlLabel, FormLabel, Paper, Radio, RadioGroup } fr
 
 import { StyledListItem as ListItem } from '../ListAssignedTasks/AssignedList.style';
 
-const TestItem = ({ handleChange, value, firstAlter, secondAlter }) => {
+const TestItem = ({ onChange, value, alternatives, firstIndex, secondIndex, testNumber }) => {
   return (
     <Paper>
       <ListItem>
         <FormControl component="fieldset">
-          <FormLabel component="legend">choose your preferred alternative</FormLabel>
-          <RadioGroup aria-label="alternatives" name="alternatives" value={value} onChange={handleChange}>
-            <FormControlLabel value="firstAltenative" control={<Radio />} label={firstAlter} />
-            <FormControlLabel value="secondAltenative" control={<Radio />} label={secondAlter} />
-            <FormControlLabel value="other" control={<Radio />} label="none of them" />
+          <FormLabel component="legend">Choose your preferred alternative:</FormLabel>
+          <RadioGroup aria-label="alternatives" name="alternatives" value={value} onChange={onChange}>
+            <FormControlLabel
+              value={`${firstIndex}-${testNumber}`}
+              control={<Radio />}
+              label={alternatives[firstIndex]}
+            />
+            <FormControlLabel
+              value={`${secondIndex}-${testNumber}`}
+              control={<Radio />}
+              label={alternatives[secondIndex]}
+            />
+            <FormControlLabel value={`-1-${testNumber}`} control={<Radio />} label="None of them" />
           </RadioGroup>
         </FormControl>
       </ListItem>

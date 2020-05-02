@@ -1,26 +1,12 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Add } from '@material-ui/icons';
 import { Fab } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 
+import { useStyles } from './styles';
 import { AssignedList } from '../ListAssignedTasks/AssignedList';
 import { Navbar } from '../Navbar';
 import { TaskCreationModal } from '../TaskCreationModal';
-import { expert } from '../../helpers/consts';
-
-const useStyles = makeStyles(theme => ({
-  fab: {
-    position: 'absolute',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-  },
-  extendedIcon: {
-    marginRight: theme.spacing(2),
-  },
-}));
-
-const filterExperts = (ids, users) =>
-  ids.filter(userId => users[userId].role === expert).map(userId => users[userId]);
+import { filterExperts } from '../../helpers/tools';
 
 const MainPageAnalyst = ({
   user,

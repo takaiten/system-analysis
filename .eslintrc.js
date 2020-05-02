@@ -27,7 +27,7 @@ module.exports = {
     'prettier/prettier': 'error',
     'default-case': 0,
     'no-shadow': 0,
-    'linebreak-style': ["error", process.env.NODE_ENV === 'prod' ? "unix" : "windows"],
+    'linebreak-style': ['error', 'unix'],
     eqeqeq: ['error', 'smart'],
     'consistent-return': 0,
     'prefer-const': 'error',
