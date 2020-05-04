@@ -4,6 +4,7 @@ import * as types from './types';
 const initialState = {
   tasks: {},
   usersTasks: {},
+  taskAnswers: {},
 };
 
 const generateUsersObject = (usersTasks, arrayOfUsersIds, taskId) =>
@@ -22,6 +23,7 @@ const tasksReducer = (state = initialState, { type, payload }) => {
       const usersWithTaskId = generateUsersObject(state.usersTasks, [...task.experts, userId], task.id);
 
       return {
+        ...state,
         tasks: {
           ...state.tasks,
           [task.id]: task,
@@ -35,6 +37,7 @@ const tasksReducer = (state = initialState, { type, payload }) => {
     case types.EDIT_TASK: {
       const { task } = payload;
       return {
+        ...state,
         tasks: {
           ...state.tasks,
           [task.id]: task,
@@ -44,9 +47,23 @@ const tasksReducer = (state = initialState, { type, payload }) => {
     case types.DELETE_TASK: {
       const { userId, taskId } = payload;
       return {
+        ...state,
         tasks: omit(state.tasks, [taskId]),
         usersTasks: {
           [userId]: omit(state.usersTasks[userId], [taskId]),
+        },
+      };
+    }
+    case types.COMPLETE_TASK: {
+      const { taskId, userId, result } = payload;
+      return {
+        ...state,
+        taskAnswers: {
+          ...state.taskAnswers,
+          [userId]: {
+            ...(state.taskAnswers[userId] || []),
+            [taskId]: result,
+          },
         },
       };
     }

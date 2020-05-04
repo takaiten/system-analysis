@@ -1,28 +1,38 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { Fab, ListItemText, Paper, Typography } from '@material-ui/core';
 import { Check as CheckIcon } from '@material-ui/icons';
 
+import { diag } from 'mathjs';
+import { useDispatch } from 'react-redux';
 import { TestItem } from './TestItem';
 
 import { useStyles } from '../MainPage/styles';
 import { StyledList as List, StyledListItem as ListItem } from '../ListAssignedTasks/AssignedList.style';
 
-import { combination } from '../../helpers/tools';
+import { completeTaskAction } from '../../redux/ducks/tasks/actions';
 
-const constructSquareMatrix = (n, value = 0) =>
-  Array(n)
-    .fill()
-    .map(() => Array(n).fill(value));
+// const constructSquareMatrix = (n, value = 0) =>
+//   Array(n)
+//     .fill()
+//     .map(() => Array(n).fill(value));
 
-const constructDiagonalMatrix = (n, value = 1) => {
-  const matrix = constructSquareMatrix(n);
-  for (let i = 0; i < matrix.length; i++) {
-    matrix[i][i] = value;
-  }
-  return matrix;
+// const constructDiagonalMatrix = (n, value = 1) => {
+//   const matrix = constructSquareMatrix(n);
+//   for (let i = 0; i < matrix.length; i++) {
+//     matrix[i][i] = value;
+//   }
+//   return matrix;
+// };
+
+const constructSquareMatrix = (n, value = 1) => Array(n).fill(value);
+
+const constructDiagonalMatrix = n => {
+  const X = constructSquareMatrix(n);
+  return diag(X);
 };
 
-export const PairComparisonTest = ({ task }) => {
+export const PairComparisonTest = ({ task, taskId, userId }) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   // stores task answers like this : {[test number]: index of selected alternative }
   const taskAnswers = constructDiagonalMatrix(task.alternatives.length);
@@ -39,7 +49,6 @@ export const PairComparisonTest = ({ task }) => {
     },
     [taskAnswers],
   );
-
   const handleChange = useCallback(
     ({ target }) => {
       const [, answerIndex, secondIndex, flag] = target.value.match(/(\d+)-(\d+)([-|+])/);
@@ -48,26 +57,21 @@ export const PairComparisonTest = ({ task }) => {
     [processAnswer],
   );
 
-  const comparisonCount = useMemo(() => combination(task.alternatives.length, 2), [task]);
+  // const comparisonCount = useMemo(() => combination(task.alternatives.length, 2), [task]);
 
-  // Think of the other way to check
-  const isSubmitDisabled = useMemo(() => comparisonCount !== Object.keys(taskAnswers).length, [
-    comparisonCount,
-    taskAnswers,
-  ]);
+  // const isSubmitDisabled = useMemo(() => comparisonCount !== numberPassed, [comparisonCount]);
+  const isSubmitDisabled = useCallback(() => {
+    const length = taskAnswers[0].length;
+    for (let i = 0; i < length - 1; i++) {
+      for (let j = i + 1; j < length; j++) {
+        if (taskAnswers[i][j] + taskAnswers[j][i] === 0) return 1;
+      }
+    }
+    return 0;
+  }, [taskAnswers]);
 
   const handleTaskFinish = () => {
-    // TODO: Save data about answers
-    // Maybe dispatch action like: completeTaskAction(taskId, userId, result)
-    // where result - taskAnswers
-    // Then create new entry in tasks reducer,
-    // don't forget to spread (...) previous values
-    // completedTasks {
-    //   [userId]: {
-    //     [taskId]: result,
-    //   }
-    // }
-    console.log(taskAnswers);
+    dispatch(completeTaskAction(taskId, userId, taskAnswers));
   };
 
   const renderAlternatives = useCallback(() => {
