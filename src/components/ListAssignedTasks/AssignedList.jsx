@@ -3,7 +3,7 @@ import { ListItemText, Paper, Typography } from '@material-ui/core';
 import { AssignedItem } from './AssignedItem';
 import { StyledList as List, StyledListItem as ListItem } from './AssignedList.style';
 
-const AssignedList = ({ tasksIds, tasksByIds, onTaskClick, onTaskDelete }) => {
+const AssignedList = ({ tasksIds, tasksByIds, onTaskDelete, onEditClick }) => {
   return (
     <Paper>
       <List>
@@ -13,7 +13,7 @@ const AssignedList = ({ tasksIds, tasksByIds, onTaskClick, onTaskDelete }) => {
               key={id}
               task={tasksByIds[id]}
               onTaskDelete={onTaskDelete(tasksByIds[id].id)}
-              onTaskClick={onTaskClick(tasksByIds[id].id)}
+              onEditClick={onEditClick(tasksByIds[id].id)}
             />
           ))
         ) : (

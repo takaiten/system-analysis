@@ -44,7 +44,7 @@ const MainPageAnalyst = ({
     handleCloseModal();
   };
   const handleTaskDelete = taskId => () => deleteTask(user.id, taskId);
-  const handleTaskClick = taskId => () => {
+  const handleTaskEditClick = taskId => () => {
     setSelectedTask(taskId);
     handleOpenModal();
   };
@@ -58,7 +58,7 @@ const MainPageAnalyst = ({
         tasksIds={userTasks}
         tasksByIds={tasks}
         onTaskDelete={handleTaskDelete}
-        onTaskClick={handleTaskClick}
+        onEditClick={handleTaskEditClick}
       />
       <TaskCreationModal
         modalTitle="Task creation"

@@ -1,4 +1,4 @@
-import { omit } from 'lodash';
+import { omit, without } from 'lodash';
 import { combinations } from 'mathjs';
 import * as types from './types';
 
@@ -73,7 +73,10 @@ const tasksReducer = (state = initialState, { type, payload }) => {
         ...state,
         tasks: omit(state.tasks, [taskId]),
         usersTasks: {
-          [userId]: omit(state.usersTasks[userId], [taskId]),
+          [userId]: without(state.usersTasks[userId], taskId),
+        },
+        taskAnswers: {
+          [userId]: omit(state.taskAnswers[userId], [taskId]),
         },
       };
     }
