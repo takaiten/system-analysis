@@ -1,11 +1,6 @@
 import { omit } from 'lodash';
+import { combinations } from 'mathjs';
 import * as types from './types';
-
-const initialState = {
-  tasks: {},
-  usersTasks: {},
-  taskAnswers: {},
-};
 
 const generateUsersObject = (usersTasks, arrayOfUsersIds, taskId) =>
   arrayOfUsersIds.reduce(
@@ -15,6 +10,34 @@ const generateUsersObject = (usersTasks, arrayOfUsersIds, taskId) =>
     }),
     {},
   );
+
+const sortAlternativesIndicesByWeights = array =>
+  array
+    .reduce((acc, altWeight, altIndex) => [...acc, { altWeight, altIndex }], [])
+    .sort((a, b) => b.altWeight - a.altWeight)
+    .map(item => item.altIndex);
+
+const getAlternativesOrder = ({ array, size }) => {
+  const R = combinations(size, size - 2) + size;
+  const arrayV = [];
+  // const arrayC = [];
+  for (let i = 0; i < size; i++) {
+    let Ci = 0;
+    for (let j = 0; j < size; j++) {
+      Ci += array[i + size * j];
+    }
+    // arrayC.push(Ci);
+    arrayV.push(Ci / R);
+  }
+  // arrayV = arrayC.map(Ci => Ci / R);
+  return sortAlternativesIndicesByWeights(arrayV);
+};
+
+const initialState = {
+  tasks: {},
+  usersTasks: {},
+  taskAnswers: {},
+};
 
 const tasksReducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -62,7 +85,10 @@ const tasksReducer = (state = initialState, { type, payload }) => {
           ...state.taskAnswers,
           [userId]: {
             ...(state.taskAnswers[userId] || []),
-            [taskId]: result,
+            [taskId]: {
+              ...result,
+              order: getAlternativesOrder(result),
+            },
           },
         },
       };

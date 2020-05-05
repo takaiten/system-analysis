@@ -1,3 +1,5 @@
+import { List } from 'immutable';
+
 import { expert } from './consts';
 
 export const isValidName = name => name && name.length > 1;
@@ -15,18 +17,6 @@ export const getFullName = ({ firstName, lastName }) =>
 export const filterExperts = (ids, users) =>
   ids.filter(userId => users[userId].role === expert).map(userId => users[userId]);
 
-export const factorial = (() => {
-  const cache = {};
-  function fn(n) {
-    if (n === 0) {
-      return 1;
-    }
-    if (cache[n]) {
-      return cache[n];
-    }
-    return (cache[n] = n * fn(n - 1));
-  }
-  return fn;
-})();
+export const flatMatrix = n => List().setSize(n * n);
 
-export const combination = (n, k) => factorial(n) / (factorial(k) * factorial(n - k));
+export const flatIdentityMatrix = n => flatMatrix(n).map((_, index) => (index % (n + 1) === 0 ? 1 : 0));

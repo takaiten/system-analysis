@@ -20,7 +20,7 @@ export const AssignedTask = ({ match }) => {
         <PairComparisonTest task={task} taskId={Number(taskId)} userId={user.id} />
       </>
     );
-  }, [tasksByIds, taskId]);
+  }, [user, tasksByIds, taskId]);
 
   return (
     <>

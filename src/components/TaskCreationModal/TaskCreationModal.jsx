@@ -126,13 +126,6 @@ const TaskCreationModal = ({
             </Select>
           </FormControl>
         </Grid>
-        <Alternative
-          canEdit={!task}
-          alternatives={alternatives.toJS()}
-          onAlternativeCreate={handleAlternativeCreate}
-          onAlternativeChange={handleAlternativeChange}
-          onAlternativeDelete={handleAlternativeDelete}
-        />
         <ExpertsList expertsIds={selectedExperts} onDelete={handleExpertDelete} usersByIds={usersByIds} />
         <Autocomplete
           options={notSelectedExperts}
@@ -141,6 +134,13 @@ const TaskCreationModal = ({
           onChange={handleSearchSelect}
           onInputChange={handleSearchChange}
           renderInput={params => <TextField {...params} label="Search Experts" variant="outlined" />}
+        />
+        <Alternative
+          canEdit={!task}
+          alternatives={alternatives.toJS()}
+          onAlternativeCreate={handleAlternativeCreate}
+          onAlternativeChange={handleAlternativeChange}
+          onAlternativeDelete={handleAlternativeDelete}
         />
       </DialogContent>
       <DialogActions>

@@ -23,11 +23,14 @@ export const deleteTaskAction = (userId, taskId) => ({
   },
 });
 
-export const completeTaskAction = (taskId, userId, result) => ({
+export const completeTaskAction = ({ taskId, userId, result: { array, size } }) => ({
   type: types.COMPLETE_TASK,
   payload: {
     taskId,
     userId,
-    result,
+    result: {
+      array,
+      size,
+    },
   },
 });
