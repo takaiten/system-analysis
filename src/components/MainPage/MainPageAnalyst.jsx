@@ -2,11 +2,14 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Add } from '@material-ui/icons';
 import { Fab } from '@material-ui/core';
 
+import { useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
 import { useStyles } from './styles';
 import { AssignedList } from '../ListAssignedTasks/AssignedList';
 import { Navbar } from '../Navbar';
 import { TaskCreationModal } from '../TaskCreationModal';
 import { filterExperts } from '../../helpers/tools';
+import { SHOW_USERS_RESULTS } from '../../routes';
 
 const MainPageAnalyst = ({
   user,
@@ -19,6 +22,7 @@ const MainPageAnalyst = ({
   editTask,
 }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const experts = useMemo(() => filterExperts(usersIds, usersByIds), [usersIds, usersByIds]);
   const userTasks = useMemo(() => usersTasks[user.id], [user, usersTasks]);
@@ -44,6 +48,7 @@ const MainPageAnalyst = ({
     handleCloseModal();
   };
   const handleTaskDelete = taskId => () => deleteTask(user.id, taskId);
+  const handleTaskView = taskId => () => dispatch(push(SHOW_USERS_RESULTS.replace(':id', taskId)));
   const handleTaskEditClick = taskId => () => {
     setSelectedTask(taskId);
     handleOpenModal();
@@ -59,6 +64,7 @@ const MainPageAnalyst = ({
         tasksByIds={tasks}
         onTaskDelete={handleTaskDelete}
         onEditClick={handleTaskEditClick}
+        onViewClick={handleTaskView}
       />
       <TaskCreationModal
         modalTitle="Task creation"

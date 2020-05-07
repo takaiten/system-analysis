@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { ListItem, ListItemText, Paper, Typography } from '@material-ui/core';
+import { ListItemText, Paper, Typography } from '@material-ui/core';
 import { ResultModal } from './ResultModal';
 import { getUsersByIds } from '../../redux/ducks/auth/selectors';
-import { StyledList as List } from '../ListAssignedTasks/AssignedList.style';
-// import { getUserCompletedTasks } from '../../redux/ducks/tasks/selectors';
-// import { Check as CheckIcon } from '@material-ui/icons';
+import { StyledList as List, StyledListItem as ListItem } from '../ListAssignedTasks/AssignedList.style';
+
+import { getFullName } from '../../helpers/tools';
 
 export const UsersResults = ({ task }) => {
   const usersByIds = useSelector(getUsersByIds);
+
   const [modalState, setModalState] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(0);
+
   const handleOpenModal = () => setModalState(true);
+
   const handleCloseModal = () => {
     setModalState(false);
     setSelectedUserId(0);
@@ -19,14 +22,13 @@ export const UsersResults = ({ task }) => {
 
   const handleUserOpenModal = userId => () => {
     setSelectedUserId(userId);
-    console.log(selectedUserId);
     handleOpenModal();
   };
 
   return (
     <>
       <ResultModal
-        modalTitle="Comparison's result "
+        modalTitle={`${task.method} result`}
         open={modalState}
         task={task}
         onClose={handleCloseModal}
@@ -37,12 +39,8 @@ export const UsersResults = ({ task }) => {
           {task.experts[0] ? (
             task.experts.map(expertId => {
               return (
-                <ListItem
-                  button
-                  onClick={handleUserOpenModal(expertId)}
-                  style={{ paddingTop: '1rem', width: '50vw' }}
-                >
-                  <ListItemText primary={usersByIds[expertId].nickname} />
+                <ListItem button onClick={handleUserOpenModal(expertId)} style={{ width: '50vw' }}>
+                  <ListItemText primary={getFullName(usersByIds[expertId])} />
                 </ListItem>
               );
             })
