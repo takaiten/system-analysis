@@ -16,36 +16,36 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   paper: {
     boxShadow: '0px 5px 24px 0px rgba(50, 50, 50, 0.5)',
     height: '50%',
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '50%'
+      width: '50%',
     },
     [theme.breakpoints.up('lg')]: {
-      width: '30%'
-    }
+      width: '30%',
+    },
   },
   inputsContainer: {
     '&& > div': {
-      padding: '10px'
-    }
+      padding: '10px',
+    },
   },
   grid: {
-    height: '100%'
+    height: '100%',
   },
   formControl: {
-    width: '100%'
+    width: '100%',
   },
   title: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
   },
   button: {
-    marginBottom: theme.spacing(1)
-  }
+    marginBottom: theme.spacing(1),
+  },
 }));
 
 const LoginPage = () => {
@@ -56,7 +56,7 @@ const LoginPage = () => {
 
   const [fields, setFields] = useState({
     nickname: '',
-    password: ''
+    password: '',
   });
 
   const [fieldsErrors, setFieldsErrors] = useState({});
@@ -71,7 +71,7 @@ const LoginPage = () => {
     hideError() &&
     setFields(prevState => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
 
   const handleSubmit = () => {
@@ -159,7 +159,7 @@ const LoginPage = () => {
 
 LoginPage.defaultProps = {
   manager: false,
-  expert: false
+  expert: false,
 };
 
 export { LoginPage };

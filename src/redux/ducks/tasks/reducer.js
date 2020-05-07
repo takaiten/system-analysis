@@ -59,6 +59,7 @@ const tasksReducer = (state = initialState, { type, payload }) => {
     }
     case types.EDIT_TASK: {
       const { task } = payload;
+
       return {
         ...state,
         tasks: {

@@ -9,7 +9,7 @@ export const addTaskAction = (task, userId) => ({
 });
 
 export const editTaskAction = task => ({
-  type: types.ADD_TASK,
+  type: types.EDIT_TASK,
   payload: {
     task,
   },

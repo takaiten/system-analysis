@@ -11,6 +11,7 @@ import {
   RegisterPage,
   WelcomePage,
 } from './components';
+import { ResultsPage } from './components/ResultsPage/ResultsPage';
 import * as ROUTES from './routes';
 import { expert } from './helpers/consts';
 
@@ -47,6 +48,13 @@ export default () => {
         to={ROUTES.MAIN}
         isAuthenticated={logged}
         component={AssignedTask}
+      />
+      <PrivateRoute
+        exact
+        from={ROUTES.SHOW_USERS_RESULTS}
+        to={ROUTES.MAIN}
+        isAuthenticated={logged}
+        component={ResultsPage}
       />
       <PrivateRoute
         exact

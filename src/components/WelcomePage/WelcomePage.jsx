@@ -6,8 +6,8 @@ import { LOGIN, REGISTER } from '../../routes';
 
 const useStyles = makeStyles(() => ({
   grid: {
-    height: '100vh'
-  }
+    height: '100vh',
+  },
 }));
 
 const WelcomePage = () => {

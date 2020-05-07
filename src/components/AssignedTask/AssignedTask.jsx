@@ -13,8 +13,6 @@ export const AssignedTask = ({ match }) => {
 
   const renderTaskMethod = useCallback(() => {
     const task = tasksByIds[taskId];
-    // TODO: Switch on method
-    // TODO: Return component with testing
     return (
       <>
         <PairComparisonTest task={task} taskId={Number(taskId)} userId={user.id} />

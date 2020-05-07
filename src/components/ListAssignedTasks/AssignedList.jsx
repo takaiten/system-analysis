@@ -12,8 +12,8 @@ const AssignedList = ({ tasksIds, tasksByIds, onTaskDelete, onEditClick }) => {
             <AssignedItem
               key={id}
               task={tasksByIds[id]}
-              onTaskDelete={onTaskDelete(tasksByIds[id].id)}
-              onEditClick={onEditClick(tasksByIds[id].id)}
+              onTaskDelete={onTaskDelete(id)}
+              onEditClick={onEditClick(id)}
             />
           ))
         ) : (
