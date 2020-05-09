@@ -3,13 +3,16 @@ import { combinations } from 'mathjs';
 import * as types from './types';
 
 const generateUsersObject = (usersTasks, arrayOfUsersIds, taskId) =>
-  arrayOfUsersIds.reduce(
-    (acc, userId) => ({
-      ...acc,
-      [userId]: [...(usersTasks[userId] || []), taskId],
-    }),
-    {},
-  );
+  arrayOfUsersIds.reduce((acc, userId) => {
+    acc[userId] = [...(usersTasks[userId] || []), taskId];
+    return acc;
+  }, {});
+
+const generateUserObjectAgain = (usersTasks, { experts, id }) =>
+  experts.reduce((acc, userId) => {
+    acc[userId] = [...(usersTasks[userId] || []), id];
+    return acc;
+  }, {});
 
 const sortAlternativesIndicesByWeights = array =>
   array
@@ -59,12 +62,17 @@ const tasksReducer = (state = initialState, { type, payload }) => {
     }
     case types.EDIT_TASK: {
       const { task } = payload;
+      const usersWithTaskIds = generateUserObjectAgain(state.usersTasks, task);
 
       return {
         ...state,
         tasks: {
           ...state.tasks,
           [task.id]: task,
+        },
+        usersTasks: {
+          ...state.usersTasks,
+          ...usersWithTaskIds,
         },
       };
     }

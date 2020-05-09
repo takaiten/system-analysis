@@ -16,7 +16,12 @@ const ExpertAssignedTasksList = ({ userTasksIds, tasksByIds }) => {
             const task = tasksByIds[taskId];
             const completed = userCompletedTasks.includes(taskId);
             return (
-              <ListItem button component={Link} to={VIEW_TASK.replace(':id', taskId)} key={taskId}>
+              <ListItem
+                button={!completed}
+                component={completed ? ListItem : Link}
+                to={VIEW_TASK.replace(':id', taskId)}
+                key={taskId}
+              >
                 <ListItemText primary={task.title} />
                 {completed && <Chip icon={<CheckIcon />} label="Completed!" color="secondary" />}
               </ListItem>
