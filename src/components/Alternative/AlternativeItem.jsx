@@ -20,7 +20,13 @@ import {
 
 import { green, red } from '@material-ui/core/colors';
 
-const AlternativeItem = ({ canEdit, alternativeText, onAlternativeChange, onAlternativeDelete }) => {
+const AlternativeItem = ({
+  canEdit,
+  alternativeText,
+  ownIndex,
+  onAlternativeChange,
+  onAlternativeDelete,
+}) => {
   const [alternativeTitle, setAlternativeTitle] = useState(alternativeText);
   const [editState, setEditState] = useState(false);
 
@@ -95,7 +101,7 @@ const AlternativeItem = ({ canEdit, alternativeText, onAlternativeChange, onAlte
               onKeyPress={handleKeyPress}
             />
           ) : (
-            <Typography>{alternativeText}</Typography>
+            <Typography>{`${ownIndex}. ${alternativeText}`}</Typography>
           )}
         </ListItemText>
         {secondListButton}

@@ -12,6 +12,7 @@ const AlternativesList = ({ canEdit, alternatives, onAlternativeChange, onAltern
             <AlternativeItem
               canEdit={canEdit}
               key={`${text}${index}`}
+              ownIndex={index + 1}
               alternativeText={text}
               onAlternativeChange={onAlternativeChange(index)}
               onAlternativeDelete={onAlternativeDelete(index)}
@@ -22,7 +23,7 @@ const AlternativesList = ({ canEdit, alternatives, onAlternativeChange, onAltern
             <ListItem>
               <ListItemText>
                 <Typography align="center" variant="h5" color="textSecondary">
-                  No Alternatives were created
+                  Альтернативы отсутствуют
                 </Typography>
               </ListItemText>
             </ListItem>

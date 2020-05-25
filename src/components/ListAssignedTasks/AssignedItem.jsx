@@ -1,37 +1,26 @@
 import React from 'react';
-import {
-  IconButton,
-  ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText,
-  Paper,
-  Typography,
-} from '@material-ui/core';
-import { Delete as DeleteIcon, Edit as EditIcon, Visibility as VisibilityIcon } from '@material-ui/icons';
-import { red } from '@material-ui/core/colors';
+import { Button, ButtonGroup, ListItem, ListItemText, Paper, Typography } from '@material-ui/core';
+import { green, red } from '@material-ui/core/colors';
 
 const AssignedItem = ({ task, onTaskDelete, onEditClick, onViewClick }) => {
   return (
-    <Paper>
+    <Paper elevation={5}>
       <ListItem key={task.id} style={{ paddingTop: '1rem', width: '50vw' }}>
-        <ListItemIcon>
-          <IconButton edge="start" onClick={onEditClick}>
-            <EditIcon />
-          </IconButton>
-          <IconButton edge="start" onClick={onViewClick}>
-            <VisibilityIcon />
-          </IconButton>
-        </ListItemIcon>
         <ListItemText>
-          <Typography>{task.title}</Typography>
+          <Typography variant="h4" align="center">
+            {task.title}
+          </Typography>
         </ListItemText>
-        <ListItemSecondaryAction>
-          <IconButton edge="end" onClick={onTaskDelete}>
-            <DeleteIcon style={{ color: red[700] }} />
-          </IconButton>
-        </ListItemSecondaryAction>
       </ListItem>
+      <ButtonGroup variant="contained" fullWidth>
+        <Button onClick={onEditClick}>Редактировать</Button>
+        <Button onClick={onViewClick} style={{ backgroundColor: green[500], color: '#FFF' }}>
+          Посмотреть результаты
+        </Button>
+        <Button onClick={onTaskDelete} style={{ backgroundColor: red[500], color: '#FFF' }}>
+          Удалить
+        </Button>
+      </ButtonGroup>
     </Paper>
   );
 };

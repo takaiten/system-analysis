@@ -17,7 +17,7 @@ const WelcomePage = () => {
     <Grid container direction="column" justify="space-evenly" alignContent="center" className={classes.grid}>
       <Grid container justify="center">
         <Typography color="textSecondary" variant="h2">
-          Welcome
+          Добро Пожаловать
         </Typography>
       </Grid>
       <Grid container spacing={1} justify="center">
@@ -32,7 +32,7 @@ const WelcomePage = () => {
               component={Link}
               to={LOGIN}
             >
-              Login
+              Вход
             </Button>
           </Grid>
         </Grid>
@@ -47,11 +47,11 @@ const WelcomePage = () => {
               component={Link}
               to={REGISTER}
             >
-              Register
+              Регистрация
             </Button>
           </Grid>
         </Grid>
-        <Grid container item justify="center">
+        {/* <Grid container item justify="center">
           <Grid item xs={6} md={4} lg={2}>
             <Button
               fullWidth
@@ -63,7 +63,7 @@ const WelcomePage = () => {
               [DEBUG] Clear Local Storage
             </Button>
           </Grid>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Grid>
   );

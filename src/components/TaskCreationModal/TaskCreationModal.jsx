@@ -103,7 +103,7 @@ const TaskCreationModal = ({
   }, [task]);
 
   return (
-    <Dialog open={open} onClose={onForceClose} maxWidth="md" fullWidth>
+    <Dialog open={open} onClose={onForceClose} fullScreen>
       <DialogTitle id="form-dialog-title">{modalTitle}</DialogTitle>
       <DialogContent>
         <Grid container item direction="row" wrap="nowrap">
@@ -111,7 +111,7 @@ const TaskCreationModal = ({
             autoFocus
             fullWidth
             margin="dense"
-            label="Task tittle"
+            label="Формулировка проблемы"
             value={taskTittle}
             onChange={handleTaskTittleChange}
           />
@@ -145,15 +145,15 @@ const TaskCreationModal = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
-          Cancel
+          Отмена
         </Button>
         {task ? (
           <Button variant="contained" color="primary" onClick={handleEdit}>
-            Edit
+            Редактировать
           </Button>
         ) : (
           <Button variant="contained" color="primary" onClick={handleCreate}>
-            Create
+            Создать
           </Button>
         )}
       </DialogActions>

@@ -67,7 +67,7 @@ const MainPageAnalyst = ({
         onViewClick={handleTaskView}
       />
       <TaskCreationModal
-        modalTitle="Task creation"
+        modalTitle="Создание задачи"
         open={modalState}
         experts={experts}
         usersByIds={usersByIds}

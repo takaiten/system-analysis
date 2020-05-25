@@ -14,11 +14,11 @@ const Alternative = ({
   return (
     <div>
       <Typography variant="subtitle2" color="textSecondary" style={{ marginTop: '0.5rem' }}>
-        Alternatives in this task:
+        Альтернативы:
       </Typography>
       {canEdit && (
         <Button variant="contained" color="default" startIcon={<AddIcon />} onClick={onAlternativeCreate}>
-          Create
+          Создать
         </Button>
       )}
       <AlternativesList
