@@ -7,7 +7,7 @@ const TestItem = ({ onChange, value, alternatives, firstIndex, secondIndex }) =>
   <Paper>
     <ListItem>
       <FormControl component="fieldset">
-        <FormLabel component="legend">Choose your preferred alternative:</FormLabel>
+        <FormLabel component="legend">Выберите лучший по вашему мнению вариант:</FormLabel>
         <RadioGroup aria-label="alternatives" name="alternatives" value={value} onChange={onChange}>
           <FormControlLabel
             value={`${firstIndex}-${secondIndex}-`}
@@ -22,7 +22,7 @@ const TestItem = ({ onChange, value, alternatives, firstIndex, secondIndex }) =>
           <FormControlLabel
             value={`${firstIndex}-${secondIndex}+`}
             control={<Radio />}
-            label="None of them"
+            label="Оба не подходят"
           />
         </RadioGroup>
       </FormControl>

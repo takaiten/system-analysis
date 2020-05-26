@@ -33,7 +33,7 @@ const TaskCreationModal = ({
   usersByIds,
 }) => {
   // Title
-  const [taskTittle, setTaskTittle] = useState('Task');
+  const [taskTittle, setTaskTittle] = useState('Проблема');
 
   const handleTaskTittleChange = ({ target }) => setTaskTittle(target.value);
 
@@ -46,7 +46,7 @@ const TaskCreationModal = ({
   const [alternatives, setAlternatives] = useState(List());
 
   const handleAlternativeCreate = () =>
-    setAlternatives(prevState => prevState.push(`Alternative #${prevState.size + 1}`));
+    setAlternatives(prevState => prevState.push(`Альтернатива #${prevState.size + 1}`));
   const handleAlternativeDelete = index => () => setAlternatives(prevState => prevState.delete(index));
   const handleAlternativeChange = index => value => setAlternatives(prevState => prevState.set(index, value));
 
@@ -116,7 +116,7 @@ const TaskCreationModal = ({
             onChange={handleTaskTittleChange}
           />
           <FormControl style={{ marginTop: '5px', width: '40%' }}>
-            <InputLabel id="label">Method</InputLabel>
+            <InputLabel id="label">Выбор метода оценевания</InputLabel>
             <Select labelId="label" value={method} onChange={handleMethodChange} disabled={!!task}>
               {METHODS.map(role => (
                 <MenuItem value={role.label} key={role.id}>
@@ -133,7 +133,7 @@ const TaskCreationModal = ({
           value={search}
           onChange={handleSearchSelect}
           onInputChange={handleSearchChange}
-          renderInput={params => <TextField {...params} label="Search Experts" variant="outlined" />}
+          renderInput={params => <TextField {...params} label="Поиск экспертов" variant="outlined" />}
         />
         <Alternative
           canEdit={!task}

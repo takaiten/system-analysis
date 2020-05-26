@@ -83,7 +83,7 @@ export const PairComparisonTest = ({ task, taskId, userId }) => {
           <ListItem>
             <ListItemText>
               <Typography align="center" variant="h5" color="textSecondary">
-                No alternatives were created
+                У этой задачи нет вариантов ответа
               </Typography>
             </ListItemText>
           </ListItem>
@@ -98,7 +98,7 @@ export const PairComparisonTest = ({ task, taskId, userId }) => {
         disabled={isSubmitDisabled()}
       >
         <CheckIcon className={classes.extendedIcon} />
-        Submit!
+        Готово!
       </Fab>
     </Paper>
   );

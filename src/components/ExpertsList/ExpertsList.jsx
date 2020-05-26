@@ -21,7 +21,7 @@ const ExpertsList = ({ expertsIds, usersByIds, onDelete }) => {
   return (
     <div style={{ paddingTop: '16px' }}>
       <Typography variant="subtitle1" color="textSecondary">
-        Experts on this task:
+        Список экспертов, назначенных для оценивания этой проблемы:
       </Typography>
       <Paper className={classes.root}>
         {expertsIds.size ? (
@@ -37,7 +37,7 @@ const ExpertsList = ({ expertsIds, usersByIds, onDelete }) => {
             );
           })
         ) : (
-          <Chip label="No users" className={classes.chip} />
+          <Chip label="Не назначено" className={classes.chip} />
         )}
       </Paper>
     </div>

@@ -8,7 +8,7 @@ import {
   Paper,
   Select,
   TextField,
-  Typography
+  Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from 'react';
@@ -27,36 +27,36 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   paper: {
     boxShadow: '0px 5px 24px 0px rgba(50, 50, 50, 0.5)',
     height: '65%',
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '50%'
+      width: '50%',
     },
     [theme.breakpoints.up('lg')]: {
-      width: '30%'
-    }
+      width: '30%',
+    },
   },
   inputsContainer: {
     '&& > div': {
-      padding: '10px'
-    }
+      padding: '10px',
+    },
   },
   grid: {
-    height: '100%'
+    height: '100%',
   },
   formControl: {
-    width: '100%'
+    width: '100%',
   },
   title: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
   },
   button: {
-    marginBottom: theme.spacing(1)
-  }
+    marginBottom: theme.spacing(1),
+  },
 }));
 
 const RegisterPage = () => {
@@ -70,7 +70,7 @@ const RegisterPage = () => {
     firstName: '',
     lastName: '',
     nickname: '',
-    password: ''
+    password: '',
   });
 
   const [fieldsErrors, setFieldsErrors] = useState({});
@@ -79,7 +79,7 @@ const RegisterPage = () => {
     isValidInput(value) &&
     setFields(prevState => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
 
   const validateFields = () => {
@@ -90,7 +90,7 @@ const RegisterPage = () => {
       firstName: !isValidName(firstName) && nameErrorMsg,
       lastName: !isValidName(lastName) && nameErrorMsg,
       nickname: user && nicknameTakenErrorMsg,
-      password: !isValidPassword(password) && passwordErrorMsg
+      password: !isValidPassword(password) && passwordErrorMsg,
     };
     setFieldsErrors(fieldsErrorsLocal);
     return Object.values(fieldsErrorsLocal).reduce((acc, item) => acc && !item, true);
@@ -115,7 +115,7 @@ const RegisterPage = () => {
         >
           <Grid>
             <Typography align="center" variant="h2" color="primary" className={classes.title}>
-              Register
+              Регистрация
             </Typography>
             <Divider light variant="middle" />
           </Grid>
@@ -124,7 +124,7 @@ const RegisterPage = () => {
               <Grid item xs={12} lg={6}>
                 <TextField
                   name="firstName"
-                  label="First Name"
+                  label="Имя"
                   error={!!fieldsErrors.firstName}
                   helperText={fieldsErrors.firstName}
                   value={fields.firstName}
@@ -135,7 +135,7 @@ const RegisterPage = () => {
               <Grid item xs={12} lg={6}>
                 <TextField
                   name="lastName"
-                  label="Last Name"
+                  label="Фамилия"
                   error={!!fieldsErrors.lastName}
                   helperText={fieldsErrors.lastName}
                   value={fields.lastName}
@@ -148,7 +148,7 @@ const RegisterPage = () => {
               <TextField
                 fullWidth
                 name="nickname"
-                label="Username"
+                label="Имя пользователя"
                 error={!!fieldsErrors.nickname}
                 helperText={fieldsErrors.nickname}
                 value={fields.nickname}
@@ -159,7 +159,7 @@ const RegisterPage = () => {
               <TextField
                 fullWidth
                 name="password"
-                label="Password"
+                label="Пароль"
                 type="password"
                 error={!!fieldsErrors.password}
                 helperText={fieldsErrors.password}
@@ -169,7 +169,7 @@ const RegisterPage = () => {
             </Grid>
             <Grid item>
               <FormControl className={classes.formControl}>
-                <InputLabel id="label">Role</InputLabel>
+                <InputLabel id="label">Роль</InputLabel>
                 <Select name="role" labelId="label" value={fields.role} onChange={handleChange}>
                   {roles.map(role => (
                     <MenuItem value={role.label} key={role.id}>
@@ -183,7 +183,7 @@ const RegisterPage = () => {
           <Grid container justify="center" spacing={1}>
             <Grid item xs={12} md={6} lg={4}>
               <Button fullWidth variant="contained" className={classes.button} onClick={handleCancel}>
-                Cancel
+                Отмена
               </Button>
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
@@ -195,7 +195,7 @@ const RegisterPage = () => {
                 className={classes.button}
                 onClick={handleSubmit}
               >
-                Submit
+                Готово
               </Button>
             </Grid>
           </Grid>

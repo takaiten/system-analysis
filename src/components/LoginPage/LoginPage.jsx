@@ -103,7 +103,7 @@ const LoginPage = () => {
         >
           <Grid>
             <Typography align="center" variant="h2" color="primary" className={classes.title}>
-              Login
+              Авторизация
             </Typography>
             <Divider light variant="middle" />
           </Grid>
@@ -112,7 +112,7 @@ const LoginPage = () => {
               <TextField
                 fullWidth
                 name="nickname"
-                label="Username"
+                label="Имя пользователя"
                 error={!!fieldsErrors.nickname}
                 helperText={fieldsErrors.nickname}
                 value={fields.nickname}
@@ -123,7 +123,7 @@ const LoginPage = () => {
               <TextField
                 fullWidth
                 name="password"
-                label="Password"
+                label="Пароль"
                 type="password"
                 error={!!fieldsErrors.password}
                 helperText={fieldsErrors.password}
@@ -135,7 +135,7 @@ const LoginPage = () => {
           <Grid container justify="center" spacing={1}>
             <Grid item xs={12} md={6} lg={4}>
               <Button fullWidth variant="contained" className={classes.button} onClick={handleCancel}>
-                Cancel
+                Отмена
               </Button>
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
@@ -147,7 +147,7 @@ const LoginPage = () => {
                 className={classes.button}
                 onClick={handleSubmit}
               >
-                Submit
+                Готово
               </Button>
             </Grid>
           </Grid>

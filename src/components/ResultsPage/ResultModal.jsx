@@ -35,7 +35,7 @@ const ResultModal = ({ open, modalTitle, onClose, onForceClose, task, userId }) 
               <ListItem>
                 <ListItemText>
                   <Typography align="center" variant="h5" color="textSecondary">
-                    Task not completed
+                    Задача не выполненна
                   </Typography>
                 </ListItemText>
               </ListItem>
@@ -45,7 +45,7 @@ const ResultModal = ({ open, modalTitle, onClose, onForceClose, task, userId }) 
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
-          Cancel
+          Отмена
         </Button>
       </DialogActions>
     </Dialog>

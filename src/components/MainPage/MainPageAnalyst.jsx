@@ -85,7 +85,7 @@ const MainPageAnalyst = ({
         onClick={handleCreateClick}
       >
         <Add className={classes.extendedIcon} />
-        Create task
+        Создать новую задачу
       </Fab>
     </>
   );

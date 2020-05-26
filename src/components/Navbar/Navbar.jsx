@@ -39,7 +39,7 @@ const Navbar = () => {
             <HomeIcon />
           </IconButton>
           <Typography variant="h5" className={classes.title}>
-            {`Welcome, ${firstName} ${lastName} (${role})`}
+            {`Добро пожаловать, ${firstName} ${lastName} (${role})`}
           </Typography>
           <Button
             variant="outlined"
@@ -48,7 +48,7 @@ const Navbar = () => {
             className={classes.menuButton}
             onClick={handleLogout}
           >
-            Logout
+            Выйти
           </Button>
         </Toolbar>
       </AppBar>

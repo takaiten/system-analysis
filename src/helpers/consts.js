@@ -4,8 +4,8 @@ export const wrongPasswordErrorMsg = 'Wrong password';
 export const userNotFoundErrorMsg = 'User not found';
 export const nicknameTakenErrorMsg = 'This username is already taken';
 
-export const expert = 'Expert';
-export const analyst = 'Analyst';
+export const expert = 'Эксперт';
+export const analyst = 'Аналитик';
 
 export const roles = [
   {
@@ -21,6 +21,6 @@ export const roles = [
 export const METHODS = [
   {
     id: 1,
-    label: 'Pair comparison',
+    label: 'Метод парных сравнений',
   },
 ];

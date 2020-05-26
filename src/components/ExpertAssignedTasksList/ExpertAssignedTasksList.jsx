@@ -38,7 +38,7 @@ const ExpertAssignedTasksList = ({ userTasksIds, tasksByIds }) => {
                   key={taskId}
                 >
                   <ListItemText primary={task.title} />
-                  {completed && <Chip icon={<CheckIcon />} label="Completed!" color="secondary" />}
+                  {completed && <Chip icon={<CheckIcon />} label="Выполнено!" color="secondary" />}
                 </ListItem>
                 <Divider />
               </>
@@ -48,7 +48,7 @@ const ExpertAssignedTasksList = ({ userTasksIds, tasksByIds }) => {
           <ListItem>
             <ListItemText>
               <Typography align="center" variant="h5" color="textSecondary">
-                No tasks were created
+                Вам еще не были назначенны задачи
               </Typography>
             </ListItemText>
           </ListItem>

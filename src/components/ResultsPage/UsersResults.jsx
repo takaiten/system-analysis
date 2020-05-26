@@ -28,7 +28,7 @@ export const UsersResults = ({ task }) => {
   return (
     <>
       <ResultModal
-        modalTitle={`${task.method} result`}
+        modalTitle={`${task.method}, результат:`}
         open={modalState}
         task={task}
         onClose={handleCloseModal}
@@ -48,7 +48,7 @@ export const UsersResults = ({ task }) => {
             <ListItem>
               <ListItemText>
                 <Typography align="center" variant="h5" color="textSecondary">
-                  No assigned experts
+                  Для этой задачи не было назначенно экспертов
                 </Typography>
               </ListItemText>
             </ListItem>
