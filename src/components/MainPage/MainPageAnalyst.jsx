@@ -67,7 +67,7 @@ const MainPageAnalyst = ({
         onViewClick={handleTaskView}
       />
       <TaskCreationModal
-        modalTitle="Создание задачи"
+        modalTitle="Добавление проблемы"
         open={modalState}
         experts={experts}
         usersByIds={usersByIds}
@@ -85,7 +85,7 @@ const MainPageAnalyst = ({
         onClick={handleCreateClick}
       >
         <Add className={classes.extendedIcon} />
-        Создать новую задачу
+        Добавить новую проблему
       </Fab>
     </>
   );

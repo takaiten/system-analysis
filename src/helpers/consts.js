@@ -4,8 +4,8 @@ export const wrongPasswordErrorMsg = 'Wrong password';
 export const userNotFoundErrorMsg = 'User not found';
 export const nicknameTakenErrorMsg = 'This username is already taken';
 
-export const expert = 'Эксперт';
-export const analyst = 'Аналитик';
+export const expert = 'expert';
+export const analyst = 'analyst';
 
 export const roles = [
   {

@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Fab, ListItemText, Paper, Typography } from '@material-ui/core';
-import { Check as CheckIcon } from '@material-ui/icons';
+import { ArrowBack as BackIcon, Check as CheckIcon } from '@material-ui/icons';
+
 import { push } from 'connected-react-router';
 
 import { useDispatch } from 'react-redux';
@@ -83,12 +84,22 @@ export const PairComparisonTest = ({ task, taskId, userId }) => {
           <ListItem>
             <ListItemText>
               <Typography align="center" variant="h5" color="textSecondary">
-                У этой задачи нет вариантов ответа
+                У этой проблемы еще нет вариантов ответа
               </Typography>
             </ListItemText>
           </ListItem>
         )}
       </List>
+      <Fab
+        variant="extended"
+        size="large"
+        color="primary"
+        className={classes.fab2}
+        onClick={handleTaskFinish}
+      >
+        <BackIcon className={classes.extendedIcon} />
+        Назад
+      </Fab>
       <Fab
         variant="extended"
         size="large"
@@ -98,7 +109,7 @@ export const PairComparisonTest = ({ task, taskId, userId }) => {
         disabled={isSubmitDisabled()}
       >
         <CheckIcon className={classes.extendedIcon} />
-        Готово!
+        Завершить
       </Fab>
     </Paper>
   );

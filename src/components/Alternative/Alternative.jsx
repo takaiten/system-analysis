@@ -18,7 +18,7 @@ const Alternative = ({
       </Typography>
       {canEdit && (
         <Button variant="contained" color="default" startIcon={<AddIcon />} onClick={onAlternativeCreate}>
-          Создать
+          Создать альтернативу
         </Button>
       )}
       <AlternativesList

@@ -21,7 +21,7 @@ const AssignedList = ({ tasksIds, tasksByIds, onTaskDelete, onEditClick, onViewC
           <ListItem>
             <ListItemText>
               <Typography align="center" variant="h5" color="textSecondary">
-                No tasks were created
+                У вас еще нет проблем
               </Typography>
             </ListItemText>
           </ListItem>

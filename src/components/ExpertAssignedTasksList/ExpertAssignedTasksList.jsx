@@ -22,7 +22,7 @@ const ExpertAssignedTasksList = ({ userTasksIds, tasksByIds }) => {
       <List>
         <ListSubheader>
           <Typography variant="h4" align="center">
-            Список задач
+            Список проблем
           </Typography>
         </ListSubheader>
         {userTasksIds ? (
@@ -48,7 +48,7 @@ const ExpertAssignedTasksList = ({ userTasksIds, tasksByIds }) => {
           <ListItem>
             <ListItemText>
               <Typography align="center" variant="h5" color="textSecondary">
-                Вам еще не были назначенны задачи
+                Вам еще не были назначенны проблемы
               </Typography>
             </ListItemText>
           </ListItem>

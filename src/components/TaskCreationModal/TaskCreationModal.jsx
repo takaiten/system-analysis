@@ -15,6 +15,7 @@ import {
 import { Autocomplete } from '@material-ui/lab';
 import { List } from 'immutable';
 
+import { Add as AddIcon } from '@material-ui/icons';
 import { METHODS } from '../../helpers/consts';
 import { getFullName } from '../../helpers/tools';
 
@@ -127,6 +128,9 @@ const TaskCreationModal = ({
           </FormControl>
         </Grid>
         <ExpertsList expertsIds={selectedExperts} onDelete={handleExpertDelete} usersByIds={usersByIds} />
+        <Button variant="contained" color="default" startIcon={<AddIcon />}>
+          Создать нового эксперта
+        </Button>
         <Autocomplete
           options={notSelectedExperts}
           getOptionLabel={getFullName}

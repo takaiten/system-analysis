@@ -48,7 +48,7 @@ export const UsersResults = ({ task }) => {
             <ListItem>
               <ListItemText>
                 <Typography align="center" variant="h5" color="textSecondary">
-                  Для этой задачи не было назначенно экспертов
+                  Для этой проблемы не было назначенно экспертов
                 </Typography>
               </ListItemText>
             </ListItem>

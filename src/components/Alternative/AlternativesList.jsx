@@ -6,7 +6,7 @@ import { AlternativeItem } from './AlternativeItem';
 const AlternativesList = ({ canEdit, alternatives, onAlternativeChange, onAlternativeDelete }) => {
   return (
     <Paper>
-      <List style={{ height: '35vh', overflowY: 'auto' }}>
+      <List style={{ height: '50vh', overflowY: 'auto' }}>
         {alternatives.length ? (
           alternatives.map((text, index) => (
             <AlternativeItem
