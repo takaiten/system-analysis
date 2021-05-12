@@ -20,7 +20,7 @@
     "history": "4.10.1",
     "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.15",
-    "mathjs": "^6.6.4",
+    "mathjs": "^7.5.1",
     "react": "16.12.0",
     "react-dom": "16.12.0",
     "react-redux": "7.1.3",
